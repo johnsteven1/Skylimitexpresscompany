@@ -1,0 +1,188 @@
+   /* Container Slide-In Animation */
+        .shippingContainer {
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 50px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            background-image: url('YOUR_BACKGROUND_IMAGE_URL.jpg'); /* Replace with actual image URL */
+            background-size: cover;
+            background-position: center;
+            animation: slideIn 1.5s ease-out forwards;
+            position: relative;
+        }
+
+        /* Fade-In and Slide-Up for Text Elements */
+        .subheading, .mainHeading, .description {
+            opacity: 0;
+            transform: translateY(20px); /* Start slightly below */
+            animation: fadeInUp 2s ease-out forwards;
+        }
+
+        .subheading {
+            animation-delay: 0.5s; /* Staggered delay */
+        }
+
+        .mainHeading {
+            animation-delay: 1s;
+        }
+
+        .description {
+            animation-delay: 1.5s;
+        }
+
+        /* Button Hover Animation */
+        .actionButton {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .actionButton:hover {
+            background-color: #c82333;
+            transform: scale(1.1); /* Scaling effect */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5); /* Shadow effect on hover */
+        }
+
+        /* Keyframes for Container Slide-In */
+        @keyframes slideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Keyframes for Fade-In and Slide-Up Text */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .new-features-container {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.new-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.new-feature-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #FF8C00;
+  padding: 10px;  
+}
+
+.new-feature-item p {
+  color: #333;
+  font-size: 1.15rem;
+  font-weight: initial;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.new-bounce {
+  animation: bounce 0.50s ease;
+}
+
+/* Hover scale effect */
+.new-feature-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.5s ease;
+}
+div[data-aos="fade-up"] {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9; /* Light background */
+      border-radius: 5px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      text-align: left;
+    }
+
+    /* Image styling */
+    .section-image {
+      width: 100%; /* Full width for responsive design */
+      max-width: 400px; /* Maximum width */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 8px; /* Rounded corners */
+      margin-bottom: 15px; /* Space below the image */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      transition: transform 0.3s ease; /* Smooth hover effect */
+    }
+
+    .section-image:hover {
+      transform: scale(1.05); /* Slight zoom on hover */
+    }
+
+    /* Header styling */
+    div[data-aos="fade-up"] h2 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: bold;
+      border-bottom: 2px solid #e74c3c;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    /* Paragraph styling */
+    div[data-aos="fade-up"] p {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    /* 'Read More' link styling */
+    .read-more {
+      color: #e74c3c;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 16px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .read-more::after {
+      content: '';
+      margin-left: 5px;
+      transition: margin-left 0.2s ease;
+    }
+
+    .read-more:hover::after {
+      margin-left: 10px;
+    }
+
+    .read-more:hover {
+      color: #c0392b;
+    }

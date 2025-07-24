@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMFC Shipping - Advanced AI Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <!-- Be sure to include Font Awesome in your <head> -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+          <!-- AOS Library for Scroll Animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+          <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+       <link rel="stylesheet" href="slide.css"> <!-- Link to the external CSS file -->
+           <link rel="stylesheet" href="map.css">
+   <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+               body {
+            font-family: Arial, sans-serif;
+            color: #2c3e50;
+            background-color: linear-gradient(135deg, #eef2f7 0%, #dce4ed 100%),
+            display: flex;
+            min-height: 250vh;
+        }
+
+        /* Header Styles */
+        main {
+    position: relative;
+}
+
+main {
+    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
+     width: 100%;
+    background-color: #333; /* Adjust background color as needed */
+    color: #fff; /* Text color for better contrast */
+    padding:; /* Adjust padding as needed */
+    text-align: center;
+    z-index: 1000; /* Ensures header stays on top of other elements */
+}
+        
+        /* Header Styles */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(51, 51, 51, 0.9); /* Semi-transparent dark background */
+    color: white;
+    height: 70px;
+    padding: 0 20px;
+    font-size: 1.45rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Logo inside the header */
+.logo {
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 50%; /* Circular logo style */
+}
+
+
+.logo {
+    height: 50px;
+     /* Adjust as needed */
+    margin-left: 17px; /* Space between logo and text */
+   justify-content: space-around;
+   box-sizing: border-box;
+   padding: 1px;
+   border-radius: 24px;
+   
+
+        }
+
+.slideshow-container {
+    width: 200; /* Set slideshow width to half the screen */
+margin: 19px auto;
+    position: relative;
+            
+}
+
+.mySlides {
+    display: none;
+}
+
+.mySlides img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+        /* Track Button */
+        .track-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px;
+            font-size: 1.1rem;
+            color: #fff;
+            background-color: #ff4500;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            background: linear-gradient(to right, #ff6347, #ff4500);
+            text-decoration: none;
+            width: 200px;
+            text-align: center;
+        }
+        .track-btn:hover {
+            background-color: #e03b00;
+            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+        }
+                .services-section {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .services-section h6 {
+            font-size: 1.20em;
+            color: linear-gradient(to right, #ff6347, #ff4500);
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .description {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 30px;
+        }
+
+        .service-card {
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .service-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .service-content {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .service-content h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+            border-left: 4px solid red;
+            padding-left: 10px;
+        }
+
+        .service-content p {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .read-more span {
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+
+        .plus-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            color: #333;
+            font-weight: bold;
+            background: #f2f2f2;
+            padding: 5px 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Card Section Styles */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px;
+        }
+        .card {
+            transition: background-color 0.3s, box-shadow 0.3s;
+            background-color: linear-gradient(to right, #ff6347, #ff4500);
+            border-radius: 9px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card i {
+            font-size: 40px;
+            color: #ff6347;
+            margin-bottom: 15px;
+        }
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Footer Navigation Bar */
+        .bottom-nav {
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            position: fixed;
+            border-radius: 24px;
+            bottom: 0.1;
+            width: 100%;
+            
+        }
+        .bottom-nav a {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+        .bottom-nav a i {
+            display: block;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+     @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+            }
+      /* About Section Styling */
+.about-section {
+    padding: 20px;
+    text-align: left;
+    background: #fff;
+    padding: 23px;
+    border-radius: 34px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    min-height: 16px;
+    max-width: 356px;
+    text-align: center; 
+}
+.border-section {
+    padding: 20px;
+    text-align: left;
+    background: #fff;
+    padding: 23px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-height: 16px;
+    max-width: 356px;
+    text-align: center; 
+}
+
+
+.section-subtitle {
+    color: #00A3FF; /* Light blue color */
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.section-text {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* Features List Styling */
+.features-list {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between features */
+}
+
+.features-list li {
+    flex: 1 1 45%; /* Responsive feature size */
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px; /* Space below each feature */
+}
+
+/* Feature Icons and Text Styling */
+.feature-icon {
+    font-size: 30px;
+    color: #FF3D3D; /* Red color for the icon */
+}
+
+.feature-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.feature-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+        }
+        /* Animated square boxes */
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+    100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}
+
+.squares {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 68%;
+    overflow: hidden;
+    z-index: -1; /* Behind all other content */
+}
+
+.squares span {
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 69, 0, 0.3); /* Light orange-red squares */
+    animation: float 20s linear infinite;
+    bottom: -150px;
+}
+
+/* Different sizes and speeds for the squares */
+.squares span:nth-child(1) {
+    left: 10%;
+    width: 80px;
+    height: 80px;
+    animation-duration: 12s;
+    animation-delay: 0s;
+}
+.squares span:nth-child(3) {
+    left: 20%;
+    width: 60px;
+    height: 60px;
+    animation-duration: 18s;
+    animation-delay: 3s;
+}
+.squares span:nth-child(3) {
+    left: 25%;
+    width: 40px;
+    height: 40px;
+    animation-duration: 16s;
+    animation-delay: 5s;
+}
+.squares span:nth-child(4) {
+    left: 40%;
+    width: 90px;
+    height: 90px;
+    animation-duration: 20s;
+    animation-delay: 1s;
+}
+.squares span:nth-child(5) {
+    left: 70%;
+    width: 70px;
+    height: 70px;
+    animation-duration: 20s;
+    animation-delay: 4s;
+}
+.squares span:nth-child(6) {
+    left: 80%;
+    width: 50px;
+    height: 50px;
+    animation-duration: 18s;
+    animation-delay: 6s;
+}
+
+        /* Documentary Section */
+        #documentary {
+            text-align: center;
+            margin: 40px 20px;
+        }
+        #documentary video {
+            max-width: 98%;
+            height: 225px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Contact Form Section */
+        #contact-form {
+            text-align: center;
+            padding: 20px;
+            background: #eef2f7;
+            margin: 40px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        #contact-form input, #contact-form textarea {
+            width: 100%;
+            max-width: 500px;
+            margin: 10px auto;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        #contact-form button {
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #contact-form button:hover {
+            background-color: #e03b00;
+        }
+           h2 {
+    color: #FF8C00;
+    font-weight: 700; /* or 300 for a lighter look */
+    margin-bottom: 17px;
+    min-height: 7px;
+    font-size: 1.75rem;
+}
+/* General Team Section Styles */
+#team {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap; /* Prevents items from wrapping to the next line */
+    margin: 40px 20px;
+    text-align: center;
+}
+
+#team .team-container {
+    display: inline-block; /* Allows team members to align horizontally */
+}
+
+.team-member {
+    display: inline-block; /* Align team members horizontally */
+    background-color: #fff;
+    border-radius: 19px;
+    padding: 24px;
+    width: 220px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.5s ease;
+    position: relative;
+    text-align: center;
+    margin-left: 14px; /* Space between team members */
+}
+
+.team-member:hover {
+    transform: translateY(-5px) scale(1.05);
+}
+
+.team-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid #ff4500; /* Optional border for team photos */
+}
+
+/* Screw Design for Team Member Names */
+.screw {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #333;
+    margin-right: 8px;
+    position: relative;
+}
+.screw::before,
+.screw::after {
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    width: 4px;
+    height: 2px;
+    top: 4px;
+    left: 3px;
+}
+.screw::after {
+    transform: rotate(90deg);
+}
+
+/* Social Media Icons with Color Animation */
+.social-icons {
+    margin-top: 10px; /* Space above social icons */
+}
+
+.social-icons a {
+    margin: 0 5px;
+    font-size: 1.2rem;
+    color: #555;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ff4500;  /* Matches the tracking button color */
+    transform: scale(1.2);
+}
+
+.social-icons a:nth-child(1):hover { color: #3b5998; }  /* Facebook blue */
+.social-icons a:nth-child(2):hover { color: #E1306C; }  /* Instagram pink */
+.social-icons a:nth-child(3):hover { color: #1DA1F2; }  /* Twitter blue */
+.social-icons a:nth-child(4):hover { color: #69C9D0; }  /* TikTok teal */
+}
+
+.new-feature-icon {
+    font-size: 70px; /* Increased size */
+    color: #007bff;  /* Optional: Customize color */
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .new-feature-item {
+    text-align: center;
+    padding: 4px;
+  }
+
+
+/* General styling for the articles section */
+.articles {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #FFFFFF, #FF8C00 30%);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Styling for each article */
+.article {
+    background-color: #fff;
+    border: 1px solid #FF8C00;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    min-height: 2px;
+}
+
+/* Hover effect for articles */
+.article:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Styling for the article headers */
+.article h4 {
+    color: #FF8C00;
+    font-weight: 600;
+    font-size: 1.68rem;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+/* Styling for the article paragraphs */
+.article p {
+    font-size: 2rem;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 0;
+    font-weight: 305;
+}
+
+/* Animation for articles loading */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.article {
+    animation: fadeIn 0.5s ease both;
+}
+
+/* Mobile-responsive design */
+@media (max-width: 500px) {
+    .articles {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .article {
+        padding: 15px;
+    }
+
+    .article h4 {
+        font-size: 1.4rem;
+    }
+
+    .article p {
+        font-size: 0.9rem;
+    }
+             /* Rating container */
+        .rating-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 48px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 261px;        
+        }
+        /* Star rating icon */
+        .star-icon {
+            color: #ffb400;
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        /* Animated number */
+        .animated-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Star rating container */
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin: 18px 0;
+        }
+
+        /* Individual star */
+        .star {
+            color: #ffb400;
+            font-size: 1.5rem;
+            margin: 0 2px;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Colorful inner border for stars */
+        .star::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: transparent;
+            background: linear-gradient(45deg, #ff0066, #ffcc00, #66ff99);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: 1.5rem;
+            z-index: -1;
+        }
+
+        /* Animation for stars on hover */
+        .star:hover {
+            transform: scale(1.2);
+        }
+
+        /* Stats container */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 26px;
+            border-top: 2px solid #ddd;
+            padding-top: 15px;
+        }
+
+        /* Individual stat */
+        .stat-item {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Stat number styling */
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6600;
+        }
+
+        /* Stat icon styling */
+        .stat-icon {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+/* Hamburger Menu Toggle Button */
+.menu-toggle {
+  position: fixed;
+  top: 10px;
+  right: 9.3px;
+  font-size: 24px;
+  cursor: pointer;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+/* Navigation Styles */
+nav {
+  position: absolute;
+  right: 9.3px;
+}
+
+nav ul {
+list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  background-color: #ff4500;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 189px;
+  border: 1px solid darkred;
+}
+
+nav ul li {
+  border-bottom: 1px solid darkred;
+}
+
+nav ul li:last-child {
+  border-bottom: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 6px;
+  margin: 4px;
+  display: block;
+  font-size: 16px;
+  text-align: left;
+}
+
+nav ul li a:hover {
+  background-color: darkred;
+}
+
+/* Show the menu on larger screens */
+@media (min-width: 768px) {
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    position: static;
+    background: none;
+    width: 100px;
+    border: none;
+  }
+
+  nav ul li {
+    border: none;
+  }
+
+  nav ul li a {
+    padding: 10px 12px;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+/* Mobile adjustments */
+@media (max-width: 100px) {
+    .nav-links {
+        flex-direction: column;    /* Stack links vertically */
+        gap: 10px;
+    }
+   
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+        <main>
+<header>
+ <img src="fast-shipping-logo-600w-1149942968.jpg" alt="IMFC Logo" class="logo">
+<p style="font-family:courier;">IMFC Shipping</p>
+           <nav>
+ <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<div id="menu" class="side-menu">
+      <ul class="menu">
+         <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#shipping">Shipping</a></li>
+        <li><a href="trackingimpute.html">Tracking</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="xyz.html">Contact Us</a></li>
+      </ul>
+       
+    </ul>
+</div>
+</header>
+</main>
+    <!-- Main Content -->
+        <div>
+            </div>
+                    <div>
+            </div>
+                    <div>
+            </div>
+                <canvas id="canvas" width = "10" height = "78"></canvas>
+    <div class="content">
+    
+        <!-- Slideshow Section -->
+        <div class="slideshow-container">
+            <div class="mySlides">
+                <img src="service-3.jpg" alt="Shipping Image 1">
+            </div>
+            <div class="mySlides">
+                <img src="service-4.jpg" alt="Shipping Image 2">
+            </div>
+            <div class="mySlides">
+                <img src="service-5.jpg" alt="Shipping Image 3">
+            </div>
+        </div>
+
+        <!-- Track Button -->
+        <section id="track">
+            <a href="trackingimpute.html" class="track-btn">Enter Tracking ID</a>
+        </section>
+    <section>
+            <h2>Welcome to IMFC Shipping</h2>
+           <p class="description">Efficient and reliable global shipping solutions, powered by advanced AI and NVIDIA graphics technology.</p>
+        </section>
+    <u><h2>Meet Our Team</h2></u>               
+     <!-- Team Section -->
+<section id="team" style="margin: 2px 1px; text-align: center;">
+    <div class="team-container">
+        <div class="team-member">
+            <img src="team-4.jpg" alt="Team Member 1" class="team-photo">
+            <h4><span class="screw"></span> John Doe</h4>
+            <p>Lead Logistics Manager</p>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="team-member">
+            <img src="team-2.jpg" alt="Team Member 2" class="team-photo">
+            <h4><span class="screw"></span> Jane Smith</h4>
+            <p>AI Engineer</p>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+                    <div class="team-member">
+            <img src="team-1.jpg" alt="Team Member 2" class="team-photo">
+            <h4><span class="screw"></span> Victor Analyst</h4>
+            <p>AI Software Developer
+            </p>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </div>
+                
+</section>
+</section>
+      <canvas id="canvas" width = "10" height = "8"></canvas>
+    <div class="content"></div>
+    <div>          
+      <u><h2>OUR SERVICES</h2></u>
+        <p class="description"></p> IMFC is simply dummy text of the printing and typesetting industry.</p>
+            <canvas id="canvas" width = "150" height = "45"></canvas>
+        
+        <div class="service-card">
+            <img src="service-1.jpg" alt="Ocean Freight Shipping" class="service-image">
+            <div class="service-content">
+                <h2>IMTC FREIGHT SHIPPING</h2>
+                <p>IMFC provides reliable and efficient ocean freight solutions tailored to your needs. With a deep understanding of the logistics industry, we ensure smooth transportation from origin to destination, leveraging our network of trusted partners worldwide.
+                </p>
+                <a href="#" class="read-more">READ MORE <span>➔</span></a>
+            </div>
+            <div class="plus-icon">+</div>
+        </div>
+                        
+        <canvas id="canvas" width = "#" height = "20"></canvas>
+             <div class="service-card">
+            <img src="carousel-2.jpg" alt="Ocean Freight Shipping" class="service-image">
+            <div class="service-content">
+                <h2>IMFC TRUCK SHIPPING</h2>
+                <p>We provide reliable and efficient truck shipping services tailored to meet your logistics needs. With years of expertise, our commitment to excellence has made us a trusted name in the industry.</p>
+                <a href="#" class="read-more">READ MORE <span>➔</span></a>
+            </div>
+            <div class="plus-icon">+</div>
+        </div>
+            
+        
+             <canvas id="canvas" width = "#" height = "23"></canvas>
+             <div class="service-card">
+            <img src="carousel-1.jpg" alt="Ocean Freight Shipping" class="service-image">
+            <div class="service-content">
+                <h2> Ocean Freight Shipping</h2>
+                <p>In today’s interconnected world, businesses and individuals alike rely on efficient shipping solutions to transport goods across the globe. IMFC Ocean Freight Shipping stands as a trusted name in the logistics industry, offering seamless and reliable services for ocean freight.</p>
+                <a href="#" class="read-more">READ MORE <span>➔</span></a>
+            </div>
+            <div class="plus-icon">+</div>
+        </div>
+        
+        
+    
+    
+    </div>
+
+
+    <!-- Container for the Slideshow with Three Reviews Displayed at Once -->
+<div class="review-slideshow">
+    
+</div>
+            <canvas id="canvas" width = "10" height = "20"></canvas>
+    <div class="content">
+        </div>
+         <!-- Card Section -->
+        <section id="services">
+           <u><h2>Our Services</h2></u>
+            <div class="cards">
+                <div class="card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Fast Delivery</h3>
+                    <p>Get your packages delivered within 24 hours!</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Global Shipping</h3>
+                    <p>We ship to over 200 countries worldwide.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Secure Handling</h3>
+                    <p>Your packages are safe with our secure shipping methods.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Customer Support</h3>
+                    <p>24/7 customer support to assist you with your needs.</p>
+                </div>
+                      </div>
+            </div>
+        </section>
+                        <div class="experience-container">
+        <div class="moment fadeIn">
+            <img src="service-5.jpg" alt="Photo 1">
+            <div class="note">Photo 1 Description</div>
+        </div>
+        <div class="moment fadeIn">
+            <img src="service-1.jpg" alt="Photo 2">
+            <div class="note">Photo 2 Description</div>
+        </div>
+        <div class="moment fadeIn">
+            <img src="service-2.jpg" alt="Photo 3">
+            <div class="note">Photo 3 Description</div>
+        </div>
+        <div class="moment fadeIn">
+            <img src="service-4.jpg" alt="Photo 4">
+            <div class="note">Photo 4 Description</div>
+        </div>
+        <div class="moment fadeIn">
+            <img src="service-5.jpg" alt="Photo 5">
+            <div class="note">Photo 5 Description</div>
+        </div>
+              <!-- Blank space for scroll testing -->
+  <section style="height: 50px;"></section> <!-- Blank space to scroll down -->
+
+  <!-- Animated Section -->
+  <div data-aos="fade-up" data-aos-delay="500">
+    <!-- Image -->
+    <img src="carousel-1.jpg" alt="Handshake Image" class="section-image">
+    
+    <!-- Content -->
+    <h2>WHY CHOOSE US?</h2>
+    <p>IMFC Shipment offers a streamlined approach to global freight logistics, ensuring efficient and reliable delivery across continents. While there are many variations of shipment services available, IMFC stands out for its exceptional attention to detail and dedication to meeting client needs.</p>
+    <p>Though the world of shipping may seem complex, IMFC simplifies the process, helping businesses and individuals navigate challenges like customs clearance, documentation, and tracking. While some logistics services may compromise on quality through alterations or unnecessary add-ons, IMFC ensures consistency and transparency in every shipment.</p>
+        <p>Choose IMFC Shipment for a hassle-free experience, knowing your cargo is in expert hands.</p>
+    <a href="#" class="read-more">Read More</a>
+  </div>
+      </div>
+             </div>
+                   <section style="height: 40px;">
+             
+
+<section id="border" class="border-section">
+  <div class="new-features-container">
+  
+    <div class="new-feature-item">
+      <i class="fas fa-handshake new-feature-icon" style="font-size: 35px;"></i>
+      <p>WE ARE TRUSTED</p>
+    </div>
+    
+    <div class="new-feature-item">
+      <i class="fas fa-lock new-feature-icon" style="font-size: 35px;"></i>
+      <p>THE BEST SECURITY</p>
+    </div>
+    
+    <div class="new-feature-item">
+      <i class="fas fa-thumbs-up new-feature-icon" style="font-size: 35px;"></i>
+      <p>100% GUARANTEE</p>
+    </div>
+    
+    <div class="new-feature-item">
+      <i class="fas fa-map-marker-alt new-feature-icon" style="font-size: 35px;"></i>
+      <p>QUICK LOCATION</p>
+    </div>
+        </div>
+        <canvas id="canvas" width = "10" height = "3"></canvas>
+    <div class="content"></div>
+<!-- About Section -->
+<section id="about" class="about-section">
+    <h3 class="section-subtitle">ABOUT US</h3>
+    <h2 class="section-title">Quick Transport and Logistics Solutions</h2>
+    <p class="section-text">
+        IMFC Shipping integrates AI-driven logistics solutions with cutting-edge NVIDIA graphic acceleration,
+        ensuring speed, efficiency, and real-time tracking for our global clients.
+    </p>
+
+    <ul class="features-list">
+        <li class="feature">
+            <div class="feature-icon">🌐</div> <!-- Global Coverage Icon -->
+            <div>
+                <h3 class="section-title">Global Coverage</h3>
+                <p class="feature-text">Providing worldwide reach to meet your logistics needs wherever you are.</p>
+            </div>
+        </li>
+        <li class="feature">
+            <div class="feature-icon">🚚</div> <!-- On Time Delivery Icon -->
+            <div>
+                <h3 class="section-title">On Time Delivery</h3>
+                <p class="feature-text">Delivering your goods on time with precision and reliability.</p>
+            </div>
+                           <li>
+                               <ul>
+                                   <center>
+         <div class="rating-container">
+        <!-- Star Icon -->
+        <div class="star-icon">⭐</div>
+        
+        <!-- Star Rating -->
+        <div class="stars">
+            <!-- 5-star rating system with colorful inner border -->
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+        </div>
+
+        <!-- Animated Rating Number -->
+        <div class="animated-number" id="ratingNumber">0</div>
+
+        <!-- Additional Stats -->
+        <div class="stats-container">
+            <!-- Number of Users -->
+            <div class="stat-item">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number" id="userCount">0</div>
+                <div class="stat-label">Users</div>
+            </div>
+            
+            <!-- Number of Orders -->
+            <div class="stat-item">
+                <div class="stat-icon">📦</div>
+                <div class="stat-number" id="orderCount">0</div>
+                <div class="stat-label">Orders</div>
+            </div>
+            </center>                     
+</section>
+          <canvas id="canvas" width = "10" height = "30"> </canvas>
+              </div>
+                  </div>
+<div style="
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 200px;
+  margin: 0;
+  float: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+">
+  <a href="https://www.google.com/maps/place/Earth/" target="_blank">
+    <img src="map1595833137.png" alt="World Map" style="
+      width: 101%;
+      height: 120%;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 7px;
+    ">
+  </a>
+  <div style="
+    font-size: 10px;
+    color: #222;
+  ">
+    World Map
+  </div>
+</div>
+     </div>             
+      <!-- Documentary Section -->
+        <section id="documentary">
+           <canvas id="canvas" width = "10" height = "20"></canvas>
+    <div class="content"></div>
+           <u><h2>OUR SERVICES</h2></u>
+            <video controls>
+                <source src="YouCut_20241025_220012438.mp4" type="video/mp4">
+                    <video width="480" height = "auto" >
+                Your browser does not support the video tag.
+            </video>
+        </section>
+
+<!-- Contact Form Section -->
+<section id="contact-form" style="padding: 40px; background-color: #f9f9f9;">
+      <h2>GET A FREE QUOTE</h2>
+  <h4>WE ALWAYS USE BEST & FASTEST FLEETS</h4>
+
+  <form action="https://formsubmit.co/info@example.com" method="post" id="banking-form" style="max-width: 600px; margin: auto;">
+    <input type="text" id="username" name="username" placeholder="Username" required>
+    <input type="email" id="email" name="email" placeholder="Email Address" required>
+    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+    <input type="text" id="shippingFrom" name="shippingFrom" placeholder="Shipping From" required>
+    <input type="text" id="shippingTo" name="shippingTo" placeholder="Shipping To" required>
+    <input type="text" id="timestamp" name="timestamp" placeholder="Timestamp" readonly>
+    <textarea id="message" name="message" rows="5" placeholder="Your Message"></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- Footer Section -->
+<footer class="footer" style="background-color: #222; color: #fff; padding: 40px 20px;">
+  <div class="footer-top" style="text-align: left;">
+    <div class="logo" style="font-size: 28px; font-weight: bold; margin-bottom: 10px;">
+      <span class="logo-box" style="background: #ff6600; padding: 5px 9px; border-radius: 4px;">IMFC</span>
+      <span class="logo-text">SHIPPING</span>
+    </div>
+    <p class="description" style="max-width: 700px; margin: auto;">
+      It was popularised in the 1960s with the release of Letraset sheets containing.
+    </p>
+
+    <div class="info" style="margin: 20px 0; text-align: left;">
+      <p><i class="fas fa-phone"></i> +1 (234) 567-8910</p>
+      <p><i class="fas fa-envelope"></i> contact@whshipping.com</p>
+      <p><i class="fas fa-fax"></i> +1 (234) 000-7890</p>
+    </div>
+
+    <div class="social-icons" style="margin-top: 15px;">
+      <i class="fab fa-facebook-f" style="margin: 0 10px;"></i>
+      <i class="fab fa-twitter" style="margin: 0 10px;"></i>
+      <i class="fab fa-youtube" style="margin: 0 10px;"></i>
+      <i class="fas fa-rss" style="margin: 0 10px;"></i>
+    </div>
+  </div>
+
+  <div class="footer-links" style="margin-top: 40px; text-align: center;">
+    <h3>QUICK LINKS</h3>
+    <ul style="list-style: none; padding: 0;">
+      <li><i class="fas fa-angle-right"></i> Company Overview</li>
+      <li><i class="fas fa-angle-right"></i> Our Services</li>
+      <li><i class="fas fa-angle-right"></i> Media & Publications</li>
+      <li><i class="fas fa-angle-right"></i> Blog</li>
+      <li><i class="fas fa-angle-right"></i> Contact Us</li>
+      <li><i class="fas fa-angle-right"></i> Freight Gallery</li>
+      <li><i class="fas fa-angle-right"></i> Image Gallery</li>
+    </ul>
+  </div>
+
+  <!-- Back to top -->
+  <div class="back-to-top" onclick="scrollToTop()" style="text-align: right; margin-top: 30px;">
+    <i class="fas fa-chevron-up" style="font-size: 24px; cursor: pointer;"></i>
+  </div>
+</footer>
+
+    <div class="squares">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+    <!-- Google Translate script -->
+<script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>    
+    <!-- JavaScript for Slideshow -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    // Initialize AOS for scroll animations
+    AOS.init();
+          let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+        
+        // Hide all slides and reset opacity
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+            slides[i].firstElementChild.style.opacity = "0"; // Set image opacity to 0
+        }
+        
+        // Increment slide index and loop back to the first slide if necessary
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1; }
+        
+        // Display the current slide and gradually increase its opacity
+        let currentSlide = slides[slideIndex - 1];
+        currentSlide.style.display = "block";
+
+        // Gradually increase opacity
+        let opacity = 0
+        let fadeIn = setInterval(() => {
+            if (opacity >= 1) {
+                clearInterval(fadeIn); // Stop fading when fully opaque
+            }
+            currentSlide.firstElementChild.style.opacity = opacity;
+            opacity += 0.1;
+        }, 99); // Adjust the timing here for faster/slower fade-in
+
+        // Change image every 3 seconds
+        setTimeout(showSlides, 6000);
+    }
+    function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.left = menu.style.left === "0px" ? "-250px" : "0px";
+}
+        // Function to animate the rating number
+        const ratingNumberElement = document.getElementById("ratingNumber");
+        const targetRating = 4.9; // Target rating out of 5
+
+        function animateRatingNumber() {
+            let currentRating = 0;
+            const interval = setInterval(() => {
+                currentRating += 0.1;
+                ratingNumberElement.textContent = currentRating.toFixed(1);
+                
+                if (currentRating >= targetRating) {
+                    clearInterval(interval);
+                    ratingNumberElement.textContent = targetRating.toFixed(1); // Ensure exact target
+                }
+            }, 100); // Speed of animation
+        }
+
+        // Function to animate user and order numbers
+        const userCountElement = document.getElementById("userCount");
+        const orderCountElement = document.getElementById("orderCount");
+        const targetUsers = 78500; // Target user count
+        const targetOrders = 76500; // Target order count
+
+        function animateStatNumber(element, target) {
+            let current = 0;
+            const increment = Math.ceil(target / 100); // Speed up the animation
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(interval);
+                }
+                element.textContent = current.toLocaleString(); // Format with commas
+            }, 100); // Speed of animation
+        }
+
+        // Start all animations when the page loads
+        window.onload = () => {
+            animateRatingNumber();
+            animateStatNumber(userCountElement, targetUsers);
+            animateStatNumber(orderCountElement, targetOrders);
+        };
+           // JavaScript for interactivity
+        document.querySelector('.plus-icon').addEventListener('click', () => {
+            alert('Additional service details coming soon!');
+        });
+        let momentIndex = 0;
+        showMoments();
+
+        function showMoments() {
+            const moments = document.getElementsByClassName("moment");
+            const notes = document.getElementsByClassName("note");
+            for (let i = 0; i < moments.length; i++) {
+                moments[i].style.display = "none";  
+                notes[i].style.display = "none"; // Hide notes initially
+            }
+            momentIndex++;
+            if (momentIndex > moments.length) { momentIndex = 1; }
+            moments[momentIndex - 1].style.display = "block";  
+            notes[momentIndex - 1].style.display = "block"; // Show note for current moment
+            setTimeout(showMoments, 5000); // Change moment every 5 seconds
+        }
+
+        // Function to change moment when clicking arrows
+        function changeMoment(n) {
+            momentIndex += n - 1; // Adjust index for the clicked button
+            if (momentIndex < 0) { momentIndex = 0; }
+            else if (momentIndex >= document.getElementsByClassName("moment").length) { momentIndex = document.getElementsByClassName("moment").length - 1; }
+            showMoments();
+        }
+
+        // Function to show note on tap
+        document.querySelectorAll('.moment').forEach(moment => {
+            moment.addEventListener('click', function() {
+                const note = this.querySelector('.note');
+                note.style.display = note.style.display === 'block' ? 'none' : 'block'; // Toggle display
+            });
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+      // Animate each feature item on load
+      const featureItems = document.querySelectorAll(".new-feature-item");
+      
+      featureItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add("new-bounce");
+        }, index * 269); // Adds a slight delay for each item to create a staggered effect
+      });
+      
+      // Remove bounce class after animation ends
+      featureItems.forEach((item) => {
+        item.addEventListener("animationend", () => {
+          item.classList.remove("new-bounce");
+        });
+      });
+    });
+       // Auto-generate the current timestamp
+    document.addEventListener("DOMContentLoaded", function() {
+        const timestampInput = document.getElementById("timestamp");
+        const currentTimestamp = new Date().toLocaleString(); // Format: MM/DD/YYYY, HH:MM:SS
+        timestampInput.value = currentTimestamp;
+    });
+    function toggleMenu() {
+  const menu = document.querySelector("nav ul");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+  // Auto-generate timestamp
+  document.addEventListener("DOMContentLoaded", function () {
+    const timestamp = new Date().toLocaleString();
+    document.getElementById("timestamp").value = timestamp;
+  });
+
+  // Scroll to top function
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+    </script>
+</body>
+</html>

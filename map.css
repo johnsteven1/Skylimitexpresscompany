@@ -1,0 +1,176 @@
+ /* ==== CONTACT FORM SECTION ==== */
+#contact-form {
+background: #f4f7f9;
+padding: 10px;
+text-align: left;
+}
+
+#contact-form h2 {
+font-size: 32px;
+color: #222;
+margin-bottom: 10px;
+}
+
+#contact-form h4 {
+font-size: 18px;
+color: #555;
+margin-bottom: 30px;
+}
+
+#banking-form {
+max-width: 600px;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+gap: 7px;
+}
+
+#banking-form input,
+#banking-form textarea {
+padding: 11px 10px;
+border: 1px solid #ccc;
+border-radius: 6px;
+font-size: 16px;
+background: #fff;
+color: #333;
+width: 100%;
+box-sizing: border-box;
+}
+
+#banking-form input:focus,
+#banking-form textarea:focus {
+outline: none;
+border-color: #0077cc;
+}
+
+#banking-form textarea {
+resize: vertical;
+min-height: 109px;
+}
+
+#banking-form button {
+background-color: #0077cc;
+color: white;
+padding: 10px;
+font-size: 14px;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+#banking-form button:hover {
+background-color: #005fa3;
+}
+
+/* ==== FOOTER SECTION ==== */
+.footer {
+background-color: #111;
+color: #ccc;
+padding: 50px 15px 20px;
+font-family: Arial, sans-serif;
+}
+
+.footer-top {
+max-width: 1500px;
+margin: auto;
+text-align: left;
+}
+
+.logo {
+font-size: 36px;
+margin-bottom: 15px;
+}
+
+.logo-box {
+background-color: #ff6600;
+color: white;
+padding: 4px 10px;
+border-radius: 4px;
+font-weight: bold;
+display: inline-block;
+margin-right: 6px;
+}
+
+.logo-text {
+color: white;
+font-weight: bold;
+}
+
+.footer .description {
+max-width: 700px;
+margin: 0 auto 20px;
+color: #aaa;
+}
+
+.footer .info p {
+margin: 6px 0;
+font-size: 15px;
+color: #ddd;
+}
+
+.footer .social-icons i {
+font-size: 18px;
+margin: 0 8px;
+cursor: pointer;
+color: #fff;
+transition: color 0.3s;
+}
+
+.footer .social-icons i:hover {
+color: #ff6600;
+}
+
+/* ==== FOOTER LINKS ==== */
+.footer-links {
+margin-top: 40px;
+}
+
+.footer-links h3 {
+font-size: 20px;
+color: #fff;
+margin-bottom: 15px;
+}
+
+.footer-links ul {
+list-style: none;
+padding: 0;
+margin: 0 auto;
+max-width: 300px;
+}
+
+.footer-links ul li {
+margin-bottom: 10px;
+font-size: 15px;
+color: #bbb;
+}
+
+.footer-links ul li i {
+margin-right: 6px;
+color: #ff6600;
+}
+
+/* ==== BACK TO TOP ==== */
+.back-to-top {
+margin-top: 40px;
+cursor: pointer;
+color: #fff;
+font-size: 22px;
+}
+
+.back-to-top:hover {
+color: #ff6600;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 868px) {
+#banking-form {
+width: 110%;
+}
+
+.footer-top,
+.footer-links ul {
+text-align: left;
+}
+}
+

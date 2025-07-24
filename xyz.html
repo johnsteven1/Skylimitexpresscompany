@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #ff6600;
+      --bg-color: #f9f9f9;
+      --text-color: #333;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .contact-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-details h2,
+    .contact-form h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      padding: 10px 0;
+      transition: transform 0.2s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateX(5px);
+    }
+
+    .contact-item i {
+      font-size: 20px;
+      margin-right: 12px;
+      color: var(--primary-color);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    .contact-form button {
+      padding: 12px;
+      font-size: 16px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: #e65c00;
+    }
+
+    .contact-map {
+      grid-column: 1 / -1;
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 600px) {
+      .contact-details h2,
+      .contact-form h2 {
+        font-size: 22px;
+      }
+
+      .contact-item {
+        font-size: 14px;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="contact-container">
+    <div class="contact-details">
+      <h2>Contact Information</h2>
+      <div class="contact-item"><i class="fas fa-user"></i> IMFC Logistics</div>
+      <div class="contact-item"><i class="fas fa-envelope"></i> support@gmail.com</div>
+      <div class="contact-item"><i class="fas fa-phone"></i> +1 (555) 176-2587</div>
+      <div class="contact-item"><i class="fas fa-map-marker-alt"></i> 123 California St, Los Angeles, CA</div>
+    </div>
+
+    <form class="contact-form" action="https://formsubmit.co/support@chinhwa.com" method="POST">
+      <h2>Send Us a Message</h2>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <input type="text" name="subject" placeholder="Subject" />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="contact-map">
+      <iframe
+        src="https://www.google.com/maps?q=California&output=embed"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>
+  </section>
+
+</body>
+</html>
