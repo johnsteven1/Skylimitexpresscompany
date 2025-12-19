@@ -18,18 +18,20 @@
     margin: 0;
     padding: 13px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .tracking-container {
     background: #fff;
-    padding: 22px;
-    border-radius: 15px;
+    padding: 21px;
+    border-radius: 17px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 78%;
-    min-height: 17px;
-    max-width: 356px;
+    min-height: 15px;
+    max-width: 354px;
     text-align: center;
     transition: transform 0.3s ease-in-out;
+    position: relative;
 }
 
 .tracking-container:hover {
@@ -209,17 +211,129 @@ button:hover {
     animation-duration: 18s;
     animation-delay: 6s;
 }
+
+/* Customer Support Icon Styles */
+.customer-support {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.support-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #25D366, #128C7E); /* WhatsApp gradient */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.support-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.support-icon img {
+    width: 35px;
+    height: 35px;
+    filter: brightness(0) invert(1); /* Makes the icon white */
+}
+
+.support-notice {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    max-width: 250px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #333;
+    border-left: 4px solid #25D366;
+    display: none;
+}
+
+.support-notice.show {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.support-notice p {
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+}
+
+.support-notice .contact-btn {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.support-notice .contact-btn:hover {
+    background: #128C7E;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
     </style>
 
     <!-- Include Leaflet.js CSS and JS for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js">
-        </script>
-            </head>  
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>  
+
 <body>
-      
+    <!-- Customer Support Section -->
+    <div class="customer-support">
+        <div class="support-notice" id="supportNotice">
+            <p><strong>Need Help?</strong></p>
+            <p>Contact our customer service for more information about your package.</p>
+            <a href="https://wa.me/1234567890?text=Hello,%20I%20need%20help%20with%20my%20package%20tracking" 
+               target="_blank" 
+               class="contact-btn">
+                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+            </a>
+        </div>
+        <div class="support-icon" onclick="toggleSupportNotice()">
+            <i class="fas fa-headset" style="font-size: 28px; color: white;"></i>
+        </div>
+    </div>
+    
     <div class="tracking-container">
-             <!-- Logo -->
+        <!-- Logo -->
         <div class="logo">
             <img src="about.jpg" alt="PayPal Logo">
         </div>
@@ -235,24 +349,24 @@ button:hover {
 
         <div id="trackingInfo" class="tracking-info">
             <h3>Tracking Information:</h3>
-          <figure style="
-  border: 1px solid #444; 
-  border-radius: 11px; 
-  padding: 5px; 
-  width: fit-content; 
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4); 
-  background: #f9f9f9;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-">
-  <img 
-    src="https://i.ibb.co/9H32PNSV/34d9139cab0c0cb92159def38ac59551.jpg" 
-    alt="image" 
-    width="188" 
-    height="151" 
-    style="border-radius: 8px;"
-  >
-</figure>
-                 <h5>Please be Patient for Page to Load.</h5>
+            <figure style="
+                border: 1px solid #444; 
+                border-radius: 11px; 
+                padding: 5px; 
+                width: fit-content; 
+                box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4); 
+                background: #f9f9f9;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            ">
+                <img 
+                    src="https://i.ibb.co/9H32PNSV/34d9139cab0c0cb92159def38ac59551.jpg" 
+                    alt="image" 
+                    width="188" 
+                    height="151" 
+                    style="border-radius: 8px;"
+                >
+            </figure>
+            <h5>Please be Patient for Page to Load.</h5>
             <p>Package Location: <span id="location">Loading...</span></p>
             <p>Longitude: <span id="longitude">Loading...</span></p>
             <p>Latitude: <span id="latitude">Loading...</span></p>
@@ -263,51 +377,52 @@ button:hover {
         <!-- Optional real-time map display -->
         <div id="map" class="map-container"></div>
     </div>
-        <div class="squares">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
+    
+    <div class="squares">
+                                                                                    <span></span>
+        <span></span>
+        <span></span>
+                                       <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+                                                                 <span></span>
+        <span></span>
+  
+        <span></span>
+        <span></span>
+                                              <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+                                                                <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-   <script>
+    <script>
         const knownTrackingIDs = {
             ExampleID1: "AB123CDE45",
             ExampleID2: "ZYX987WQTR",
@@ -316,8 +431,7 @@ button:hover {
         };
 
         const locations = [
-          { city: "Amsterdam", lat: 52.3676, long: 4.9041 }
-          
+        { city: "London", lat: 51.5074, long: -0.1278 }
         ];
 
         const statuses = ["In Transit", ];
@@ -328,6 +442,42 @@ button:hover {
         let map;
         let marker;
 
+        // Customer support notice functionality
+        let noticeVisible = false;
+        
+        function toggleSupportNotice() {
+            const notice = document.getElementById('supportNotice');
+            noticeVisible = !noticeVisible;
+            
+            if (noticeVisible) {
+                notice.classList.add('show');
+            } else {
+                notice.classList.remove('show');
+            }
+        }
+        
+        // Auto-hide notice after 10 seconds if visible
+        function autoHideNotice() {
+            if (noticeVisible) {
+                setTimeout(() => {
+                    if (noticeVisible) {
+                        toggleSupportNotice();
+                    }
+                }, 10000);
+            }
+        }
+        
+        // Initialize support notice functionality
+        document.addEventListener('click', function(event) {
+            const supportArea = document.querySelector('.customer-support');
+            const notice = document.getElementById('supportNotice');
+            
+            // If clicking outside the support area and notice is visible, hide it
+            if (noticeVisible && !supportArea.contains(event.target)) {
+                toggleSupportNotice();
+            }
+        });
+
         function processTracking() {
             const trackingInput = document.getElementById("trackingInput").value;
             const feedback = document.getElementById("feedback");
@@ -336,9 +486,21 @@ button:hover {
                 feedback.textContent = "Tracking ID found! Retrieving data...";
                 feedback.style.color = "green";
                 startRealTimeUpdates();
+                
+                // Show support notice when tracking starts
+                if (!noticeVisible) {
+                    toggleSupportNotice();
+                    autoHideNotice();
+                }
             } else {
                 feedback.textContent = "Tracking ID not recognized. Your tracking number (LXVN) can be found in your transfer history page and in your printed or emailed receipt.";
                 feedback.style.color = "red";
+                
+                // Show support notice for help with incorrect tracking ID
+                if (!noticeVisible) {
+                    toggleSupportNotice();
+                    autoHideNotice();
+                }
             }
         }
 
@@ -392,13 +554,11 @@ button:hover {
         }
 
         function updateDeliveryTime() {
-    const now = new Date();
-    const estimated = new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000); // add 40 days
-
-    const estimateText = estimated.toLocaleDateString(); // only show the date
-
-    document.getElementById("delivery").textContent = estimateText;
-}
+            const now = new Date();
+            const estimated = new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000); // add 40 days
+            const estimateText = estimated.toLocaleDateString(); // only show the date
+            document.getElementById("delivery").textContent = estimateText;
+        }
    
         // Simulate AI-enhanced tracking data analysis
         setInterval(function() {
@@ -413,4 +573,3 @@ button:hover {
     </script>
 </body>
 </html>
-    
