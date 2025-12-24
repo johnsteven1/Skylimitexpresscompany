@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMFC Shipping Receipt Generator - Advanced</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2c5aa0;
+        }
+        
+        h1 {
+            color: #2c5aa0;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .controls-panel {
+            flex: 1;
+            min-width: 350px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .receipt-preview {
+            flex: 2;
+            min-width: 700px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .section-title {
+            color: #2c5aa0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 1.3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #2c5aa0;
+            outline: none;
+        }
+        
+        .logo-upload {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logo-upload:hover {
+            border-color: #2c5aa0;
+            background-color: #f9fafe;
+        }
+        
+        .logo-preview {
+            max-width: 200px;
+            max-height: 100px;
+            margin: 10px auto;
+            display: none;
+        }
+        
+        .style-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .style-option {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .color-picker {
+            width: 100%;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .amount-editor {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .amount-editor input {
+            width: 100%;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #2c5aa0;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e3d6f;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #1e7e34;
+        }
+        
+        /* Receipt Styling */
+        .receipt {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .receipt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2c5aa0;
+        }
+        
+        .company-logo-container {
+            max-width: 200px;
+        }
+        
+        .company-logo {
+            max-width: 100%;
+            max-height: 80px;
+        }
+        
+        .receipt-title {
+            font-size: 2rem;
+            color: #2c5aa0;
+            text-align: right;
+            font-weight: 700;
+        }
+        
+        .receipt-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .info-box {
+            margin-bottom: 20px;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        
+        .items-table th {
+            background-color: #f2f6fc;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c5aa0;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .items-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .totals {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 1.1rem;
+        }
+        
+        .grand-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid #2c5aa0;
+        }
+        
+        .receipt-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .signature-area {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px dashed #999;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature-box {
+            width: 45%;
+            padding-top: 20px;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 40px;
+            padding-top: 5px;
+            text-align: center;
+        }
+        
+        .signature-canvas {
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            cursor: crosshair;
+            margin-top: 10px;
+        }
+        
+        .stamp {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border: 3px solid #cc0000;
+            border-radius: 50%;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cc0000;
+            font-weight: bold;
+            transform: rotate(-15deg);
+            opacity: 0.7;
+        }
+        
+        .stamp-text {
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .receipt, .receipt * {
+                visibility: visible;
+            }
+            .receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                border: none;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .receipt-preview {
+                min-width: 100%;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+        
+        .signature-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .canvas-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid #2c5aa0;
+            color: #2c5aa0;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dimension-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .dimension-control {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dimension-control input {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IMFC Shipping Receipt Generator - Advanced</h1>
+            <p class="subtitle">Fully customizable shipping receipt with digital signature and PDF export</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="controls-panel">
+                <div class="tab-container">
+                    <div class="tab active" data-tab="content">Content</div>
+                    <div class="tab" data-tab="style">Style</div>
+                    <div class="tab" data-tab="items">Items</div>
+                    <div class="tab" data-tab="signature">Signature</div>
+                </div>
+                
+                <div class="tab-content active" id="content-tab">
+                    <div class="form-group">
+                        <label for="logoUpload">Upload Company Logo</label>
+                        <div class="logo-upload" id="logoUploadArea">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #2c5aa0; margin-bottom: 10px;"></i>
+                            <p>Click to upload your logo</p>
+                            <p>Recommended: 200px x 80px</p>
+                            <img id="logoPreview" class="logo-preview" alt="Logo preview">
+                        </div>
+                        <input type="file" id="logoUpload" accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" id="companyName" value="International Maritime Freight Company (IMFC)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="receiptNumber">Receipt Number</label>
+                        <input type="text" id="receiptNumber" value="IMFC-2023-0876">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" value="2023-10-15">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="shipper">Shipper</label>
+                        <input type="text" id="shipper" value="Global Exports Inc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consignee">Consignee</label>
+                        <input type="text" id="consignee" value="Ocean Importers Ltd.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="origin">Origin Port</label>
+                        <input type="text" id="origin" value="Port of Shanghai">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="destination">Destination Port</label>
+                        <input type="text" id="destination" value="Port of Los Angeles">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vessel">Vessel/Flight No.</label>
+                        <input type="text" id="vessel" value="MV Sea Carrier / AC789">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="container">Container No.</label>
+                        <input type="text" id="container" value="CMAU 123456 7">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" rows="3">Please ensure all documents are submitted 48 hours prior to arrival. Delivery subject to customs clearance.</textarea>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="style-tab">
+                    <div class="form-group">
+                        <h3 class="section-title">Style Options</h3>
+                        <div class="style-options">
+                            <div class="style-option">
+                                <label for="primaryColor">Primary Color</label>
+                                <input type="color" id="primaryColor" class="color-picker" value="#2c5aa0">
+                            </div>
+                            <div class="style-option">
+                                <label for="fontFamily">Font Family</label>
+                                <select id="fontFamily">
+                                    <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI (Default)</option>
+                                    <option value="Arial, Helvetica, sans-serif">Arial</option>
+                                    <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                                    <option value="'Courier New', Courier, monospace">Courier New</option>
+                                    <option value="Georgia, serif">Georgia</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h3 class="section-title">Receipt Dimensions</h3>
+                        <div class="dimension-controls">
+                            <div class="dimension-control">
+                                <label for="receiptWidth">Width (px)</label>
+                                <input type="number" id="receiptWidth" value="800" min="400" max="1200">
+                            </div>
+                            <div class="dimension-control">
+                                <label for="receiptPadding">Padding (px)</label>
+                                <input type="number" id="receiptPadding" value="40" min="20" max="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h3 class="section-title">Financial Details</h3>
+                        <div class="form-group">
+                            <label for="taxRate">Tax Rate (%)</label>
+                            <input type="number" id="taxRate" value="8.5" step="0.1" min="0" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Currency</label>
+                            <select id="currency">
+                                <option value="$">USD ($)</option>
+                                <option value="€">EUR (€)</option>
+                                <option value="£">GBP (£)</option>
+                                <option value="¥">JPY (¥)</option>
+                                <option value="₹">INR (₹)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="items-tab">
+                    <h3 class="section-title">Itemized Charges</h3>
+                    <div id="itemsContainer">
+                        <!-- Items will be dynamically added here -->
+                    </div>
+                    <button id="addItemBtn" class="btn-secondary" style="margin-top: 10px;">
+                        <i class="fas fa-plus"></i> Add New Item
+                    </button>
+                    
+                    <div class="form-group" style="margin-top: 30px;">
+                        <h3 class="section-title">Additional Charges</h3>
+                        <div class="form-group">
+                            <label for="fuelSurcharge">Fuel Surcharge</label>
+                            <input type="number" id="fuelSurcharge" value="120" step="0.01" min="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="signature-tab">
+                    <h3 class="section-title">Digital Signature</h3>
+                    <p>Add digital signatures to your receipt:</p>
+                    
+                    <div class="form-group">
+                        <label for="signerName">Authorized Signer Name</label>
+                        <input type="text" id="signerName" value="John Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signerTitle">Signer Title</label>
+                        <input type="text" id="signerTitle" value="IMFC Operations Manager">
+                    </div>
+                    
+                    <button id="addSignatureBtn" class="btn-primary">
+                        <i class="fas fa-signature"></i> Add Signature
+                    </button>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label for="clientSigner">Client Signer Name</label>
+                        <input type="text" id="clientSigner" value="Jane Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="clientTitle">Client Title</label>
+                        <input type="text" id="clientTitle" value="Ocean Importers Ltd.">
+                    </button>
+                </div>
+                
+                <div class="button-group">
+                    <button id="updateReceipt" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Update Receipt
+                    </button>
+                    <button id="printReceipt" class="btn-success">
+                        <i class="fas fa-print"></i> Print Receipt
+                    </button>
+                    <button id="resetForm" class="btn-secondary">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+            
+            <div class="receipt-preview">
+                <h2 class="section-title">Receipt Preview</h2>
+                <p class="no-print" style="margin-bottom: 20px; color: #666;">Preview of your shipping receipt. All changes update in real-time.</p>
+                
+                <div class="receipt" id="receiptOutput">
+                    <div class="receipt-header">
+                        <div class="company-logo-container">
+                            <img id="receiptLogo" class="company-logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjgwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSI4MCIgZmlsbD0iIzJjNWFhMCIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGFsbWduPSJtaWRkbGUiPklNRkM8L3RleHQ+CiAgPHRleHQgeD0iMTAwIiB5PSI3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgYWxpZ249Im1pZGRsZSI+U0hJUFBJTkc8L3RleHQ+Cjwvc3ZnPgo=" alt="IMFC Logo">
+                        </div>
+                        <div class="receipt-title">SHIPPING RECEIPT</div>
+                    </div>
+                    
+                    <div class="receipt-info">
+                        <div>
+                            <div class="info-box">
+                                <div class="info-label">RECEIPT NO.</div>
+                                <div class="info-value" id="previewReceiptNumber">IMFC-2023-0876</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">DATE</div>
+                                <div class="info-value" id="previewDate">October 15, 2023</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">SHIPPER</div>
+                                <div class="info-value" id="previewShipper">Global Exports Inc.</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">CONSIGNEE</div>
+                                <div class="info-value" id="previewConsignee">Ocean Importers Ltd.</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="info-box">
+                                <div class="info-label">ORIGIN PORT</div>
+                                <div class="info-value" id="previewOrigin">Port of Shanghai</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">DESTINATION PORT</div>
+                                <div class="info-value" id="previewDestination">Port of Los Angeles</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">VESSEL/FLIGHT NO.</div>
+                                <div class="info-value" id="previewVessel">MV Sea Carrier / AC789</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">CONTAINER NO.</div>
+                                <div class="info-value" id="previewContainer">CMAU 123456 7</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>DESCRIPTION</th>
+                                <th>QUANTITY</th>
+                                <th>WEIGHT</th>
+                                <th class="text-right">RATE</th>
+                                <th class="text-right">AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="previewItems">
+                            <!-- Items will be dynamically added here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="totals">
+                        <div class="total-row">
+                            <div>Subtotal</div>
+                            <div id="previewSubtotal">$3,880.00</div>
+                        </div>
+                        <div class="total-row">
+                            <div>Tax (<span id="previewTaxRate">8.5</span>%)</div>
+                            <div id="previewTax">$329.80</div>
+                        </div>
+                        <div class="total-row">
+                            <div>Fuel Surcharge</div>
+                            <div id="previewFuelSurcharge">$120.00</div>
+                        </div>
+                        <div class="total-row grand-total">
+                            <div>TOTAL AMOUNT</div>
+                            <div id="previewTotal">$4,329.80</div>
+                        </div>
+                    </div>
+                    
+                    <div class="signature-area">
+                        <div class="signature-box">
+                            <div class="info-label">AUTHORIZED SIGNATURE</div>
+                            <div class="signature-line"></div>
+                            <div style="text-align: center; margin-top: 5px;" id="previewSigner">John Smith<br><small>IMFC Operations Manager</small></div>
+                        </div>
+                        <div class="signature-box">
+                            <div class="info-label">CLIENT ACKNOWLEDGMENT</div>
+                            <div class="signature-line"></div>
+                            <div style="text-align: center; margin-top: 5px;" id="previewClientSigner">Jane Doe<br><small>Ocean Importers Ltd.</small></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stamp">
+                        <div class="stamp-text">PAID<br>IMFC</div>
+                    </div>
+                    
+                    <div class="receipt-footer">
+                        <p id="previewCompanyName">International Maritime Freight Company (IMFC)</p>
+                        <p>123 Maritime Blvd, Shipping District, CA 90210 | Phone: (555) 123-4567 | Email: info@imfc-shipping.com</p>
+                        <p id="previewNotes">Please ensure all documents are submitted 48 hours prior to arrival. Delivery subject to customs clearance.</p>
+                        <p style="margin-top: 10px;">This is a computer-generated receipt. No signature required for validation.</p>
+                    </div>
+                </div>
+                
+                <div class="button-group no-print" style="margin-top: 30px; justify-content: center;">
+                    <button id="downloadPDF" class="btn-primary">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button id="previewFullscreen" class="btn-secondary">
+                        <i class="fas fa-expand"></i> Fullscreen Preview
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="no-print" style="text-align: center; padding: 20px; color: #666; font-size: 0.9rem;">
+            <p>IMFC Shipping Receipt Generator &copy; 2023 | Advanced Edition with PDF Export</p>
+        </footer>
+    </div>
+    
+    <!-- Signature Modal -->
+    <div class="modal" id="signatureModal">
+        <div class="modal-content">
+            <h3>Add Digital Signature</h3>
+            <p>Draw your signature in the box below:</p>
+            <div class="canvas-container">
+                <canvas id="signatureCanvas" width="400" height="200" class="signature-canvas"></canvas>
+            </div>
+            <div class="signature-controls">
+                <button id="clearSignature" class="btn-secondary">
+                    <i class="fas fa-eraser"></i> Clear
+                </button>
+                <button id="saveSignature" class="btn-primary">
+                    <i class="fas fa-check"></i> Save Signature
+                </button>
+                <button id="cancelSignature" class="btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        Receipt updated successfully!
+    </div>
+
+    <script>
+        // Initialize jsPDF
+        const { jsPDF } = window.jspdf;
+        
+        // DOM elements
+        const logoUpload = document.getElementById('logoUpload');
+        const logoUploadArea = document.getElementById('logoUploadArea');
+        const logoPreview = document.getElementById('logoPreview');
+        const receiptLogo = document.getElementById('receiptLogo');
+        const primaryColor = document.getElementById('primaryColor');
+        const fontFamily = document.getElementById('fontFamily');
+        const updateReceiptBtn = document.getElementById('updateReceipt');
+        const printReceiptBtn = document.getElementById('printReceipt');
+        const resetFormBtn = document.getElementById('resetForm');
+        const downloadPDFBtn = document.getElementById('downloadPDF');
+        const notification = document.getElementById('notification');
+        const addItemBtn = document.getElementById('addItemBtn');
+        const itemsContainer = document.getElementById('itemsContainer');
+        const previewItems = document.getElementById('previewItems');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const receiptWidthInput = document.getElementById('receiptWidth');
+        const receiptPaddingInput = document.getElementById('receiptPadding');
+        const taxRateInput = document.getElementById('taxRate');
+        const currencySelect = document.getElementById('currency');
+        const fuelSurchargeInput = document.getElementById('fuelSurcharge');
+        const addSignatureBtn = document.getElementById('addSignatureBtn');
+        const signatureModal = document.getElementById('signatureModal');
+        const signatureCanvas = document.getElementById('signatureCanvas');
+        const clearSignatureBtn = document.getElementById('clearSignature');
+        const saveSignatureBtn = document.getElementById('saveSignature');
+        const cancelSignatureBtn = document.getElementById('cancelSignature');
+        const signerNameInput = document.getElementById('signerName');
+        const signerTitleInput = document.getElementById('signerTitle');
+        const clientSignerInput = document.getElementById('clientSigner');
+        const clientTitleInput = document.getElementById('clientTitle');
+        const previewFullscreenBtn = document.getElementById('previewFullscreen');
+        
+        // Form input elements
+        const companyName = document.getElementById('companyName');
+        const receiptNumber = document.getElementById('receiptNumber');
+        const date = document.getElementById('date');
+        const shipper = document.getElementById('shipper');
+        const consignee = document.getElementById('consignee');
+        const origin = document.getElementById('origin');
+        const destination = document.getElementById('destination');
+        const vessel = document.getElementById('vessel');
+        const container = document.getElementById('container');
+        const notes = document.getElementById('notes');
+        
+        // Preview elements
+        const previewCompanyName = document.getElementById('previewCompanyName');
+        const previewReceiptNumber = document.getElementById('previewReceiptNumber');
+        const previewDate = document.getElementById('previewDate');
+        const previewShipper = document.getElementById('previewShipper');
+        const previewConsignee = document.getElementById('previewConsignee');
+        const previewOrigin = document.getElementById('previewOrigin');
+        const previewDestination = document.getElementById('previewDestination');
+        const previewVessel = document.getElementById('previewVessel');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewNotes = document.getElementById('previewNotes');
+        const previewSubtotal = document.getElementById('previewSubtotal');
+        const previewTax = document.getElementById('previewTax');
+        const previewTaxRate = document.getElementById('previewTaxRate');
+        const previewFuelSurcharge = document.getElementById('previewFuelSurcharge');
+        const previewTotal = document.getElementById('previewTotal');
+        const previewSigner = document.getElementById('previewSigner');
+        const previewClientSigner = document.getElementById('previewClientSigner');
+        
+        // Items data
+        let items = [
+            { description: "Ocean Freight Charges", quantity: 1, weight: "12,500 kg", rate: 2850, amount: 2850 },
+            { description: "Port Handling Fees", quantity: 1, weight: "12,500 kg", rate: 450, amount: 450 },
+            { description: "Customs Clearance", quantity: 1, weight: "N/A", rate: 320, amount: 320 },
+            { description: "Insurance Premium", quantity: 1, weight: "12,500 kg", rate: 175, amount: 175 },
+            { description: "Documentation Fees", quantity: 1, weight: "N/A", rate: 85, amount: 85 }
+        ];
+        
+        // Signature data
+        let signatureImage = null;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        const ctx = signatureCanvas.getContext('2d');
+        
+        // Initialize canvas
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        // Format date for display
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateObj = new Date(dateString);
+            return dateObj.toLocaleDateString('en-US', options);
+        }
+        
+        // Format currency
+        function formatCurrency(amount, currencySymbol = '$') {
+            return `${currencySymbol}${amount.toFixed(2)}`;
+        }
+        
+        // Calculate totals
+        function calculateTotals() {
+            const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+            const taxRate = parseFloat(taxRateInput.value) || 0;
+            const tax = subtotal * (taxRate / 100);
+            const fuelSurcharge = parseFloat(fuelSurchargeInput.value) || 0;
+            const total = subtotal + tax + fuelSurcharge;
+            const currencySymbol = currencySelect.value;
+            
+            return {
+                subtotal: formatCurrency(subtotal, currencySymbol),
+                tax: formatCurrency(tax, currencySymbol),
+                taxRate: taxRate,
+                fuelSurcharge: formatCurrency(fuelSurcharge, currencySymbol),
+                total: formatCurrency(total, currencySymbol)
+            };
+        }
+        
+        // Render items in editor
+        function renderItemsEditor() {
+            itemsContainer.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'amount-editor';
+                itemDiv.innerHTML = `
+                    <input type="text" class="item-desc" value="${item.description}" placeholder="Description" data-index="${index}">
+                    <input type="number" class="item-qty" value="${item.quantity}" min="1" data-index="${index}">
+                    <input type="text" class="item-weight" value="${item.weight}" placeholder="Weight" data-index="${index}">
+                    <input type="number" class="item-rate" value="${item.rate}" step="0.01" min="0" data-index="${index}">
+                `;
+                itemsContainer.appendChild(itemDiv);
+            });
+            
+            // Add event listeners to item inputs
+            document.querySelectorAll('.item-desc, .item-qty, .item-weight, .item-rate').forEach(input => {
+                input.addEventListener('input', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    const field = this.className.split(' ')[0].replace('item-', '');
+                    
+                    if (field === 'desc') items[index].description = this.value;
+                    if (field === 'qty') items[index].quantity = parseInt(this.value) || 1;
+                    if (field === 'weight') items[index].weight = this.value;
+                    if (field === 'rate') {
+                        items[index].rate = parseFloat(this.value) || 0;
+                        items[index].amount = items[index].quantity * items[index].rate;
+                    }
+                    
+                    updateReceipt();
+                });
+            });
+        }
+        
+        // Render items in preview
+        function renderItemsPreview() {
+            previewItems.innerHTML = '';
+            const currencySymbol = currencySelect.value;
+            
+            items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.description}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.weight}</td>
+                    <td class="text-right">${formatCurrency(item.rate, currencySymbol)}</td>
+                    <td class="text-right">${formatCurrency(item.amount, currencySymbol)}</td>
+                `;
+                previewItems.appendChild(row);
+            });
+            
+            // Update totals
+            const totals = calculateTotals();
+            previewSubtotal.textContent = totals.subtotal;
+            previewTax.textContent = totals.tax;
+            previewTaxRate.textContent = totals.taxRate;
+            previewFuelSurcharge.textContent = totals.fuelSurcharge;
+            previewTotal.textContent = totals.total;
+        }
+        
+        // Update receipt preview
+        function updateReceipt() {
+            // Update text content
+            previewCompanyName.textContent = companyName.value || "International Maritime Freight Company (IMFC)";
+            previewReceiptNumber.textContent = receiptNumber.value || "IMFC-2023-0876";
+            previewDate.textContent = date.value ? formatDate(date.value) : "October 15, 2023";
+            previewShipper.textContent = shipper.value || "Global Exports Inc.";
+            previewConsignee.textContent = consignee.value || "Ocean Importers Ltd.";
+            previewOrigin.textContent = origin.value || "Port of Shanghai";
+            previewDestination.textContent = destination.value || "Port of Los Angeles";
+            previewVessel.textContent = vessel.value || "MV Sea Carrier / AC789";
+            previewContainer.textContent = container.value || "CMAU 123456 7";
+            previewNotes.textContent = notes.value || "Please ensure all documents are submitted 48 hours prior to arrival. Delivery subject to customs clearance.";
+            
+            // Update signature previews
+            previewSigner.innerHTML = `${signerNameInput.value || "John Smith"}<br><small>${signerTitleInput.value || "IMFC Operations Manager"}</small>`;
+            previewClientSigner.innerHTML = `${clientSignerInput.value || "Jane Doe"}<br><small>${clientTitleInput.value || "Ocean Importers Ltd."}</small>`;
+            
+            // Update styling
+            const receiptOutput = document.getElementById('receiptOutput');
+            const color = primaryColor.value;
+            
+            // Update receipt dimensions
+            receiptOutput.style.width = `${receiptWidthInput.value}px`;
+            receiptOutput.style.padding = `${receiptPaddingInput.value}px`;
+            
+            // Update colors
+            document.querySelectorAll('.receipt-header').forEach(el => {
+                el.style.borderBottomColor = color;
+            });
+            
+            document.querySelectorAll('.receipt-title').forEach(el => {
+                el.style.color = color;
+            });
+            
+            document.querySelectorAll('.section-title').forEach(el => {
+                el.style.color = color;
+            });
+            
+            document.querySelectorAll('.items-table th').forEach(el => {
+                el.style.color = color;
+            });
+            
+            document.querySelectorAll('.grand-total').forEach(el => {
+                el.style.color = color;
+                el.style.borderTopColor = color;
+            });
+            
+            // Update font family
+            receiptOutput.style.fontFamily = fontFamily.value;
+            
+            // Render items
+            renderItemsPreview();
+            
+            // Show notification
+            showNotification('Receipt updated successfully!', 'success');
+        }
+        
+        // Handle logo upload
+        logoUploadArea.addEventListener('click', () => {
+            logoUpload.click();
+        });
+        
+        logoUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview.src = e.target.result;
+                    logoPreview.style.display = 'block';
+                    receiptLogo.src = e.target.result;
+                    
+                    showNotification('Logo uploaded successfully!', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Add new item
+        addItemBtn.addEventListener('click', function() {
+            items.push({
+                description: "New Item",
+                quantity: 1,
+                weight: "N/A",
+                rate: 0,
+                amount: 0
+            });
+            
+            renderItemsEditor();
+            updateReceipt();
+            showNotification('New item added!', 'info');
+        });
+        
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Signature functionality
+        addSignatureBtn.addEventListener('click', function() {
+            signatureModal.style.display = 'flex';
+        });
+        
+        // Draw on canvas
+        signatureCanvas.addEventListener('mousedown', startDrawing);
+        signatureCanvas.addEventListener('touchstart', startDrawingTouch);
+        
+        signatureCanvas.addEventListener('mousemove', draw);
+        signatureCanvas.addEventListener('touchmove', drawTouch);
+        
+        signatureCanvas.addEventListener('mouseup', stopDrawing);
+        signatureCanvas.addEventListener('touchend', stopDrawing);
+        
+        signatureCanvas.addEventListener('mouseleave', stopDrawing);
+        
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+        
+        function startDrawingTouch(e) {
+            e.preventDefault();
+            const rect = signatureCanvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            isDrawing = true;
+            [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+        
+        function drawTouch(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const rect = signatureCanvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            [lastX, lastY] = [x, y];
+        }
+        
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        clearSignatureBtn.addEventListener('click', function() {
+            ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        });
+        
+        saveSignatureBtn.addEventListener('click', function() {
+            signatureImage = signatureCanvas.toDataURL('image/png');
+            
+            // Add signature to receipt
+            const signatureBox = document.querySelector('.signature-box:first-child');
+            if (signatureBox) {
+                const existingImg = signatureBox.querySelector('.signature-img');
+                if (existingImg) existingImg.remove();
+                
+                const img = document.createElement('img');
+                img.src = signatureImage;
+                img.className = 'signature-img';
+                img.style.maxWidth = '150px';
+                img.style.maxHeight = '60px';
+                img.style.marginTop = '10px';
+                signatureBox.insertBefore(img, signatureBox.querySelector('.signature-line'));
+            }
+            
+            signatureModal.style.display = 'none';
+            showNotification('Signature added successfully!', 'success');
+        });
+        
+        cancelSignatureBtn.addEventListener('click', function() {
+            signatureModal.style.display = 'none';
+        });
+        
+        // Print receipt
+        function printReceipt() {
+            window.print();
+        }
+        
+        // Reset form
+        function resetForm() {
+            if (confirm("Are you sure you want to reset all changes?")) {
+                // Reset form inputs
+                companyName.value = "International Maritime Freight Company (IMFC)";
+                receiptNumber.value = "IMFC-2023-0876";
+                date.value = "2023-10-15";
+                shipper.value = "Global Exports Inc.";
+                consignee.value = "Ocean Importers Ltd.";
+                origin.value = "Port of Shanghai";
+                destination.value = "Port of Los Angeles";
+                vessel.value = "MV Sea Carrier / AC789";
+                container.value = "CMAU 123456 7";
+                notes.value = "Please ensure all documents are submitted 48 hours prior to arrival. Delivery subject to customs clearance.";
+                
+                // Reset style options
+                primaryColor.value = "#2c5aa0";
+                fontFamily.value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                receiptWidthInput.value = "800";
+                receiptPaddingInput.value = "40";
+                taxRateInput.value = "8.5";
+                currencySelect.value = "$";
+                fuelSurchargeInput.value = "120";
+                
+                // Reset signature fields
+                signerNameInput.value = "John Smith";
+                signerTitleInput.value = "IMFC Operations Manager";
+                clientSignerInput.value = "Jane Doe";
+                clientTitleInput.value = "Ocean Importers Ltd.";
+                
+                // Reset items
+                items = [
+                    { description: "Ocean Freight Charges", quantity: 1, weight: "12,500 kg", rate: 2850, amount: 2850 },
+                    { description: "Port Handling Fees", quantity: 1, weight: "12,500 kg", rate: 450, amount: 450 },
+                    { description: "Customs Clearance", quantity: 1, weight: "N/A", rate: 320, amount: 320 },
+                    { description: "Insurance Premium", quantity: 1, weight: "12,500 kg", rate: 175, amount: 175 },
+                    { description: "Documentation Fees", quantity: 1, weight: "N/A", rate: 85, amount: 85 }
+                ];
+                
+                // Reset logo
+                logoPreview.style.display = 'none';
+                receiptLogo.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjgwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSI4MCIgZmlsbD0iIzJjNWFhMCIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGFsbWduPSJtaWRkbGUiPklNRkM8L3RleHQ+CiAgPHRleHQgeD0iMTAwIiB5PSI3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgYWxpZ249Im1pZGRsZSI+U0hJUFBJTkc8L3RleHQ+Cjwvc3ZnPgo=";
+                
+                // Clear signature
+                ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+                signatureImage = null;
+                const existingImg = document.querySelector('.signature-img');
+                if (existingImg) existingImg.remove();
+                
+                // Update UI
+                renderItemsEditor();
+                updateReceipt();
+                
+                showNotification('Form reset to default values!', 'info');
+            }
+        }
+        
+        // Generate PDF
+        async function generatePDF() {
+            showNotification('Generating PDF...', 'info');
+            
+            try {
+                const receiptElement = document.getElementById('receiptOutput');
+                
+                // Use html2canvas to capture the receipt
+                const canvas = await html2canvas(receiptElement, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                // Calculate image dimensions to fit the page
+                const imgWidth = pageWidth - 20; // 10mm margins on each side
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                // Add the image to PDF
+                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                
+                // Add metadata
+                pdf.setProperties({
+                    title: `IMFC Receipt - ${receiptNumber.value}`,
+                    subject: 'Shipping Receipt',
+                    author: companyName.value,
+                    keywords: 'shipping, receipt, IMFC, freight',
+                    creator: 'IMFC Receipt Generator'
+                });
+                
+                // Save the PDF
+                pdf.save(`IMFC_Receipt_${receiptNumber.value.replace(/\s+/g, '_')}.pdf`);
+                
+                showNotification('PDF downloaded successfully!', 'success');
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showNotification('Error generating PDF. Please try again.', 'error');
+            }
+        }
+        
+        // Fullscreen preview
+        previewFullscreenBtn.addEventListener('click', function() {
+            const receiptElement = document.getElementById('receiptOutput');
+            
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                receiptElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            }
+        });
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            
+            if (type === 'success') {
+                notification.style.backgroundColor = '#28a745';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#dc3545';
+            } else if (type === 'info') {
+                notification.style.backgroundColor = '#17a2b8';
+            }
+            
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Event listeners
+        updateReceiptBtn.addEventListener('click', updateReceipt);
+        printReceiptBtn.addEventListener('click', printReceipt);
+        resetFormBtn.addEventListener('click', resetForm);
+        downloadPDFBtn.addEventListener('click', generatePDF);
+        
+        // Update receipt on input changes
+        const inputsToWatch = [
+            companyName, receiptNumber, date, shipper, consignee,
+            origin, destination, vessel, container, notes,
+            primaryColor, fontFamily, receiptWidthInput, receiptPaddingInput,
+            taxRateInput, currencySelect, fuelSurchargeInput,
+            signerNameInput, signerTitleInput, clientSignerInput, clientTitleInput
+        ];
+        
+        inputsToWatch.forEach(input => {
+            input.addEventListener('input', updateReceipt);
+        });
+        
+        // Initialize with current date
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        date.value = formattedDate;
+        
+        // Initial setup
+        renderItemsEditor();
+        updateReceipt();
+        
+        // Exit fullscreen on escape key
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                // User exited fullscreen
+            }
+        });
+    </script>
+</body>
+</html>
