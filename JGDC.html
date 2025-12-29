@@ -596,7 +596,7 @@ button:hover {
         function updateDeliveryTime() {
             const now = new Date();
             const estimated = new Date(now);
-             estimated.setDate(estimated.getDate() +8);
+             estimated.setDate(estimated.getDate() +0);
             const estimateText = estimated.toLocaleDateString(); // only show the date
             document.getElementById("delivery").textContent = estimateText;
         }
