@@ -466,10 +466,10 @@ button:hover {
         };
 
         const locations = [
-        { city: "San Diego, CA", lat: 32.7157, long: -117.1611 }
+          { city: "Phoenix, AZ", lat: 33.4484, long: -112.0740 }
         ];
 
-        const statuses = ["In Transit", ];
+        const statuses = ["Out For Delivery", ];
         let currentLocationIndex = 0;
         let currentStatusIndex = 0;
 
@@ -596,8 +596,8 @@ button:hover {
         function updateDeliveryTime() {
             const now = new Date();
             const estimated = new Date(now);
-             estimated.setDate(estimated.getDate() + 2);
-              const estimateText = '---'; // only show the date
+             estimated.setDate(estimated.getDate() + 3);
+            const estimateText = estimated.toLocaleDateString(); // only show the date
             document.getElementById("delivery").textContent = estimateText;
         }
    
