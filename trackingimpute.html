@@ -469,7 +469,7 @@ button:hover {
           { city: "Lisbon, PT", lat: 38.7169, long: -9.1395 }  // Longer EU leg
         ];
 
-        const statuses = ["Out for Delivery ", ];
+        const statuses = ["Hold ", ];
         let currentLocationIndex = 0;
         let currentStatusIndex = 0;
 
@@ -595,7 +595,8 @@ button:hover {
 
         function updateDeliveryTime() {
             const now = new Date();
-            const estimated = new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000); // add 40 days
+             estimated.setDate(estimated.getDate() + 2);
+              const estimateText = '__';
             const estimateText = estimated.toLocaleDateString(); // only show the date
             document.getElementById("delivery").textContent = estimateText;
         }
