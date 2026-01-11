@@ -595,10 +595,13 @@ button:hover {
 
         function updateDeliveryTime() {
             const now = new Date();
-             estimated.setDate(estimated.getDate() + 2);
-              const estimateText = '__';
-            const estimateText = estimated.toLocaleDateString(); // only show the date
-            document.getElementById("delivery").textContent = estimateText;
+             const estimated = new Date(now);
+        estimated.setDate(estimated.getDate() + 30);
+
+        // Show placeholder instead of date
+        const estimateText = "---";
+
+          document.getElementById("delivery").textContent = estimateText;
         }
    
         // Simulate AI-enhanced tracking data analysis
