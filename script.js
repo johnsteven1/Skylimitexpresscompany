@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         welcomeCloseBtn.addEventListener("click", (e) => {
             e.preventDefault();
             localStorage.setItem("welcomeDismissed", "true");
-            window.location.href = "dex3.html";
+            window.location.href = "JDG3.html";
         });
     }
 
