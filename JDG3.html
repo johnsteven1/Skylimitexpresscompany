@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
           <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
           <link rel="stylesheet" href="styles3.css"> 
+              <link rel="stylesheet" href="styles4.css"> 
     <style>
         /* Global Reset & Variables */
         :root {
@@ -788,7 +789,7 @@
   type="button"
   class="welcome-btn"
   id="welcomeClose"
-  onclick="window.location.href='#team'">
+  onclick="window.location.href=' JDG4.html'">
   <i class="fas fa-rocket"></i> Start Exploring
 </button>
   </div>
@@ -1031,6 +1032,47 @@
   <div class="map-label">World Map</div>
 </div>
     
+<div class="testimonial-section">
+    <h2 class="section-title">What Our Clients Say</h2>
+
+    <div class="testimonial-slider" id="testimonialSlider">
+
+        <!-- Slide 1 -->
+        <div class="testimonial-slide">
+            <img src="https://randomuser.me/api/portraits/men/67.jpg" class="testimonial-photo" alt="Client Photo">
+            <p class="testimonial-text">
+                "JGDC has completely transformed my shipping experience. Fast delivery and perfect tracking!"
+            </p>
+            <h4 class="testimonial-name">Michael A.</h4>
+            <span class="testimonial-role">Business Owner</span>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="testimonial-slide">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="testimonial-photo" alt="Client Photo">
+            <p class="testimonial-text">
+                "Very professional service. My packages always arrive safely. I trust JGDC completely."
+            </p>
+            <h4 class="testimonial-name">Sophia K.</h4>
+            <span class="testimonial-role">Regular Shipper</span>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="testimonial-slide">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testimonial-photo" alt="Client Photo">
+            <p class="testimonial-text">
+                "The dashboard is amazing! I can track everything in real time without stress."
+            </p>
+            <h4 class="testimonial-name">Carlos M.</h4>
+            <span class="testimonial-role">Importer</span>
+        </div>
+
+    </div>
+
+    <!-- Slider Navigation Dots -->
+    <div class="testimonial-dots" id="testimonialDots"></div>
+</div>
+    
        <!-- Pricing Packages Section -->
         <section class="section pricing-section" id="pricing">
             <h2 class="section-title">Shipping Packages</h2>
@@ -1192,7 +1234,7 @@
                 <h3>Contact Info</h3>
                 <ul class="footer-links">
                     <li><a href="#"><i class="fas fa-map-marker-alt"></i> Global Headquarters</a></li>
-                    <li><a href="tel:+12052252440"><i class="fas fa-phone"></i> +1 (234) 567-890</a></li>
+                    <li><a href="tel:+12052252440"><i class="fas fa-phone"></i> +12052252440</a></li>
                     <li><a href="mailto:support@jgdcshipping.com"><i class="fas fa-envelope"></i> support@jgdcshipping.com</a></li>
                     <li><a href="https://t.me/Eriksen41"><i class="fab fa-telegram"></i> Telegram Support</a></li>
                     <li><a href="#"><i class="fas fa-clock"></i> 24/7 Customer Support</a></li>
@@ -1201,7 +1243,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2024 JGDC Shipping. All rights reserved. | <a href="#" style="color: var(--primary-color);">Privacy Policy</a> | <a href="#" style="color: var(--primary-color);">Terms of Service</a></p>
+            <p>&copy; 2026 JGDC Shipping. All rights reserved. | <a href="#" style="color: var(--primary-color);">Privacy Policy</a> | <a href="#" style="color: var(--primary-color);">Terms of Service</a></p>
             <p style="margin-top: 10px; font-size: 0.8rem;">Powered by NVIDIA AI Technology</p>
         </div>
     </footer>
@@ -1230,6 +1272,7 @@
     <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
         <script src="script.js"></script>
+               <script src="script1.js"></script>
     <script>
         // Initialize AOS
         AOS.init({
