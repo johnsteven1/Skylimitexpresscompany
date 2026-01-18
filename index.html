@@ -12,7 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
           <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
-    
+          <link rel="stylesheet" href="styles3.css"> 
+              <link rel="stylesheet" href="styles4.css"> 
     <style>
         /* Global Reset & Variables */
         :root {
@@ -31,8 +32,8 @@
             --border-radius: 12px;
             --border-radius-sm: 8px;
             --transition: all 0.3s ease;
-            --header-height: 70px;
-            --bottom-nav-height: 65px;
+            --header-height: 65px;
+            --bottom-nav-height: 64px;
         }
         
         * {
@@ -769,6 +770,31 @@
     </style>
 </head>
 <body>
+    
+<!-- Welcome Popup -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-popup">
+    <button class="welcome-close" id="welcomeClose">&times;</button>
+
+    <img src="IMG-20251228-WA0007.jpg" alt="JGDC Logo" class="welcome-logo">
+
+    <h2>Welcome to JGDC</h2>
+    <p>
+      Your trusted global logistics partner.<br>
+      Track shipments, explore our services, and experience
+      <strong>AI-powered shipping solutions</strong> worldwide.
+    </p>
+
+<button
+  type="button"
+  class="welcome-btn"
+  id="welcomeClose"
+  onclick="window.location.href=' JDG4.html'">
+  <i class="fas fa-rocket"></i> Start Exploring
+</button>
+  </div>
+</div>
+    
     <!-- Animated Background -->
     <div class="animated-bg">
         <span></span><span></span><span></span><span></span><span></span>
@@ -1006,6 +1032,107 @@
   <div class="map-label">World Map</div>
 </div>
     
+<div class="testimonial-section">
+    <h2 class="section-title">What Our Clients Say</h2>
+
+    <div class="testimonial-slider" id="testimonialSlider">
+
+        <!-- Slide 1 -->
+        <div class="testimonial-slide">
+            <img src="https://randomuser.me/api/portraits/men/67.jpg" class="testimonial-photo" alt="Client Photo">
+            <p class="testimonial-text">
+                "JGDC has completely transformed my shipping experience. Fast delivery and perfect tracking!"
+            </p>
+            <h4 class="testimonial-name">Michael A.</h4>
+            <span class="testimonial-role">Business Owner</span>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="testimonial-slide">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="testimonial-photo" alt="Client Photo">
+            <p class="testimonial-text">
+                "Very professional service. My packages always arrive safely. I trust JGDC completely."
+            </p>
+            <h4 class="testimonial-name">Sophia K.</h4>
+            <span class="testimonial-role">Regular Shipper</span>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="testimonial-slide">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testimonial-photo" alt="Client Photo">
+            <p class="testimonial-text">
+                "The dashboard is amazing! I can track everything in real time without stress."
+            </p>
+            <h4 class="testimonial-name">Carlos M.</h4>
+            <span class="testimonial-role">Importer</span>
+        </div>
+
+    </div>
+
+    <!-- Slider Navigation Dots -->
+    <div class="testimonial-dots" id="testimonialDots"></div>
+</div>
+    
+       <!-- Pricing Packages Section -->
+        <section class="section pricing-section" id="pricing">
+            <h2 class="section-title">Shipping Packages</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card" data-aos="fade-up">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Basic</h3>
+                        <div class="pricing-price">$49</div>
+                        <div class="pricing-period">per shipment</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Up to 10kg weight</li>
+                        <li><i class="fas fa-check"></i> 5-10 Business Days</li>
+                        <li><i class="fas fa-check"></i> Basic Tracking</li>
+                        <li><i class="fas fa-check"></i> Email Support</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Priority Handling</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Insurance Coverage</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Real-time Updates</li>
+                    </ul>
+                    <button class="pricing-btn">Choose Plan</button>
+                </div>
+                
+                <div class="pricing-card popular" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Premium</h3>
+                        <div class="pricing-price">$99</div>
+                        <div class="pricing-period">per shipment</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Up to 25kg weight</li>
+                        <li><i class="fas fa-check"></i> 3-5 Business Days</li>
+                        <li><i class="fas fa-check"></i> Advanced Tracking</li>
+                        <li><i class="fas fa-check"></i> 24/7 Support</li>
+                        <li><i class="fas fa-check"></i> Priority Handling</li>
+                        <li><i class="fas fa-check"></i> $500 Insurance</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Real-time Updates</li>
+                    </ul>
+                    <button class="pricing-btn">Choose Plan</button>
+                </div>
+                
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Enterprise</h3>
+                        <div class="pricing-price">$199</div>
+                        <div class="pricing-period">per shipment</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Up to 50kg weight</li>
+                        <li><i class="fas fa-check"></i> 1-2 Business Days</li>
+                        <li><i class="fas fa-check"></i> Real-time Tracking</li>
+                        <li><i class="fas fa-check"></i> Dedicated Manager</li>
+                        <li><i class="fas fa-check"></i> Priority Handling</li>
+                        <li><i class="fas fa-check"></i> $2000 Insurance</li>
+                        <li><i class="fas fa-check"></i> Real-time Updates</li>
+                    </ul>
+                    <button class="pricing-btn">Choose Plan</button>
+                </div>
+            </div>
+        </section>
+            
         <!-- Contact Form -->
         <section class="section" id="contact">
             <h2 class="section-title">Get a Free Quote</h2>
@@ -1065,7 +1192,63 @@
             </div>
         </section>
     </main>
-    
+           
+         <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>JGDC Shipping</h3>
+                <p>Global logistics solutions powered by NVIDIA AI technology. Delivering excellence worldwide since 2010.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+                    <li><a href="#tracking"><i class="fas fa-chevron-right"></i> Live Tracking</a></li>
+                    <li><a href="#quote"><i class="fas fa-chevron-right"></i> Get Quote</a></li>
+                    <li><a href="JGDC.html"><i class="fas fa-chevron-right"></i> Tracking Portal</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-ship"></i> Ocean Freight</a></li>
+                    <li><a href="#"><i class="fas fa-plane"></i> Air Freight</a></li>
+                    <li><a href="#"><i class="fas fa-truck"></i> Truck Shipping</a></li>
+                    <li><a href="#"><i class="fas fa-box"></i> Warehousing</a></li>
+                    <li><a href="#"><i class="fas fa-customs"></i> Customs Clearance</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Global Headquarters</a></li>
+                    <li><a href="tel:+12052252440"><i class="fas fa-phone"></i> +12052252440</a></li>
+                    <li><a href="mailto:support@jgdcshipping.com"><i class="fas fa-envelope"></i> support@jgdcshipping.com</a></li>
+                    <li><a href="https://t.me/Eriksen41"><i class="fab fa-telegram"></i> Telegram Support</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> 24/7 Customer Support</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 JGDC Shipping. All rights reserved. | <a href="#" style="color: var(--primary-color);">Privacy Policy</a> | <a href="#" style="color: var(--primary-color);">Terms of Service</a></p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Powered by NVIDIA AI Technology</p>
+        </div>
+    </footer>
+
+
     <!-- Bottom Navigation (Mobile Only) -->
     <nav class="bottom-nav">
         <a href="#home" class="nav-item active">
@@ -1088,6 +1271,8 @@
     
     <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <script src="script.js"></script>
+               <script src="script1.js"></script>
     <script>
         // Initialize AOS
         AOS.init({
@@ -1246,3 +1431,4 @@
     </script>
 </body>
 </html>
+    
