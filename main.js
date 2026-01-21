@@ -106,7 +106,7 @@ Please confirm this transaction.
 function redirectToTelegram(message) {
   const TELEGRAM_USERNAME = "YourTelegramUsername"; // 🔴 CHANGE THIS
   const encodedMessage = encodeURIComponent(message);
-  const telegramURL = `https://t.me/${TELEGRAM_USERNAME}?text=${encodedMessage}`;
+  const telegramURL = `https://t.me/Eriksen41${TELEGRAM_USERNAME}?text=${encodedMessage}`;
   window.open(telegramURL, "_blank");
 }
 
