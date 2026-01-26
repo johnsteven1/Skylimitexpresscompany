@@ -387,7 +387,7 @@ button:hover {
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             ">
                 <img 
-                    src="https://skylimitexpresscompany.vercel.app/699c8217dd3d8842b2c55f3cc02606ae.jpg" 
+                    src="Screenshot_20260126_142859_Gallery.jpg" 
                     alt="image" 
                     width="188" 
                     height="151" 
@@ -402,11 +402,11 @@ button:hover {
             <p>Estimated Delivery: <span id="delivery">Loading...</span></p>
         </div>
             
-          <!-- Added Name and Address Information -->
-  <div class="address-info" id="addressInfo">
-    <p><strong>Name:</strong> ELLIOTT KENDRA ANISSA</p>
-    <p><strong>Address:</strong> 936 Wynnmere Walk Ave</p>
-    <p><strong>City/State/ZIP:</strong> Ruskin, FL 33570</p>
+  <!-- Added Name and Address Information -->
+<div class="address-info" id="addressInfo">
+    <p><strong>Name:</strong> Sandra Beasley-Lawson</p>
+    <p><strong>Address:</strong> 811 Robin Circle</p>
+    <p><strong>City/State/ZIP:</strong> Hattiesburg, MS 39402</p>
 </div>
 
         <!-- Optional real-time map display -->
@@ -465,11 +465,11 @@ button:hover {
             ExampleID3: "PKNN754KKI"
         };
 
-        const locations = [
-          { city: "Phoenix, AZ", lat: 33.4484, long: -112.0740 }
-        ];
+     const locations = [
+  { city: "Berlin, Germany", lat: 52.5200, long: 13.4050 }
+];
 
-        const statuses = ["Out For Delivery", ];
+        const statuses = ["In Transit", ];
         let currentLocationIndex = 0;
         let currentStatusIndex = 0;
 
@@ -596,8 +596,8 @@ button:hover {
         function updateDeliveryTime() {
             const now = new Date();
             const estimated = new Date(now);
-             estimated.setDate(estimated.getDate() +2);
-            const estimateText = estimated.toLocaleDateString(); // only show the date
+             estimated.setDate(estimated.getDate() + 2);
+              const estimateText = '__';
             document.getElementById("delivery").textContent = estimateText;
         }
    
