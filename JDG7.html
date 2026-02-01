@@ -14,7 +14,6 @@
           <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
           <link rel="stylesheet" href="styles3.css"> 
               <link rel="stylesheet" href="styles4.css"> 
-                <link rel="stylesheet" href="styles5.css"> 
     <style>
         /* Global Reset & Variables */
         :root {
@@ -772,51 +771,7 @@
 </head>
 <body>
     
-<!-- ==
-============== AUTH MODAL ================= -->
-<div id="authModal" class="auth-overlay">
-  <div class="auth-box">
-    <h3 id="authTitle">Create Account</h3>
 
-    <input id="authName" placeholder="Full Name">
-    <input id="authEmail" type="email" placeholder="Email">
-    <input id="authPassword" type="password" placeholder="Password">
-
-    <button id="authBtn">Sign Up</button>
-
-    <p class="switch-text">
-      Already have an account?
-      <a href="#" onclick="switchAuth()">Login</a>
-            <a href="#" onclick="switchAuth()">/sign up</a>
-    </p>
-    <button class="close-btn" onclick="closeAuth()">Close</button>
-  </div>
-</div>
-    
-<!-- Welcome Popup -->
-<div class="welcome-overlay" id="welcomeOverlay">
-  <div class="welcome-popup">
-    <button class="welcome-close" id="welcomeClose">&times;</button>
-
-    <img src="IMG-20251228-WA0007.jpg" alt="JGDC Logo" class="welcome-logo">
-
-    <h2>Welcome to JGDC</h2>
-    <p>
-      Your trusted global logistics partner.<br>
-      Track shipments, explore our services, and experience
-      <strong>AI-powered shipping solutions</strong> worldwide.
-    </p>
-
-<button
-  type="button"
-  class="welcome-btn"
-  id="welcomeClose"
-  onclick="window.location.href=' JDG4.html'">
-  <i class="fas fa-rocket"></i> Start Exploring
-</button>
-  </div>
-</div>
-    
     <!-- Animated Background -->
     <div class="animated-bg">
         <span></span><span></span><span></span><span></span><span></span>
@@ -834,37 +789,20 @@
             <i class="fas fa-bars"></i>
         </button>
         
-       
-       <!-- Mobile Menu -->
-<nav class="mobile-menu" id="mobileMenu">
-    <ul>
-        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#services"><i class="fas fa-shipping-fast"></i> Services</a></li>
-        <li><a href="#team"><i class="fas fa-users"></i> Our Team</a></li>
-        <li><a href="#tracking"><i class="fas fa-map-marked-alt"></i> Tracking</a></li>
-        <li><a href="#stats"><i class="fas fa-chart-bar"></i> Stats</a></li>
-        <li><a href="https://t.me/Eriksen41?url=&text=Hello,%20I%20need%20help%20with%20my%20package%20tracking">
-         <i class="fas fa-envelope"></i> Contact </a> </li>
-                   <!-- LOGIN / SIGN UP -->
-        <li><a href="javascript:void(0)" onclick="openAuth()">
-                <i class="fas fa-user"></i> Login/Sign Up</a> </li>
-    </ul>
-</nav>
+        <!-- Mobile Menu -->
+        <nav class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#services"><i class="fas fa-shipping-fast"></i> Services</a></li>
+                <li><a href="#team"><i class="fas fa-users"></i> Our Team</a></li>
+                <li><a href="#tracking"><i class="fas fa-map-marked-alt"></i> Tracking</a></li>
+                <li><a href="#stats"><i class="fas fa-chart-bar"></i> Stats</a></li>
+                <li><a href="https://t.me/Eriksen41?url=&text=Hello,%20I%20need%20help%20with%20my%20package%20tracking"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
         
         <div class="mobile-menu-overlay" id="menuOverlay"></div>
     </header>
-        
-    <canvas id="canvas" width = "150" height = "67"></canvas>
-        
-    <!-- ================= USER PROFILE ================= -->
-<div id="userProfile" class="profile-box">
-  <h3>Welcome, <span id="profileName"></span> 👋</h3>
-  <p>Email: <span id="profileEmail"></span></p>
-  <p><strong>Profit:</strong> $<span id="profileProfit"></span></p>
-
-<button onclick="initAddFunds()">Add Funds</button>
-  <button onclick="logoutUser()" class="logout">Logout</button>
-</div>
      
     <!-- Main Content -->
     <main class="main-content">      
@@ -1312,7 +1250,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
         <script src="script.js"></script>
                <script src="script1.js"></script>
-                   <script src="main.js"></script>
     <script>
         // Initialize AOS
         AOS.init({
