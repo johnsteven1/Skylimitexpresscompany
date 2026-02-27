@@ -595,15 +595,11 @@ button:hover {
 
         function updateDeliveryTime() {
     const now = new Date();
-
     const estimated = new Date(now);
     estimated.setDate(estimated.getDate() + 40);
 
-    // Show the estimated delivery date (+40 days)
-    const estimateText = estimated.toDateString();
-
-    document.getElementById("delivery-date").textContent = estimateText;
-}
+    // Show placeholder instead of date
+    const estimateText = estimated.toDateString();             
         
           document.getElementById("delivery").textContent = estimateText;
         }
