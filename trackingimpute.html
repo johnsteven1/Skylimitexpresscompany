@@ -6,6 +6,160 @@
     <title>Smart Real-Time Package Tracking</title>
     
     <style>
+        /* ===== UPDATE NOTICE STYLES ===== */
+        .update-notice-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .update-notice-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 69, 0, 0.2);
+        }
+        
+        .update-notice-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #ff4500, #ff8c00);
+        }
+        
+        .update-icon {
+            font-size: 70px;
+            color: #ff4500;
+            margin-bottom: 20px;
+            animation: bounce 1.5s infinite;
+        }
+        
+        .update-notice-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #ff4500, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .update-notice-message {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+        
+        .update-notice-features {
+            text-align: left;
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #1e87f0;
+        }
+        
+        .update-notice-features h4 {
+            color: #1e87f0;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .update-notice-features ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #444;
+        }
+        
+        .update-notice-features li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .update-button {
+            background: linear-gradient(to right, #ff4500, #ff8c00);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.3);
+            margin-bottom: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .update-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.4);
+            background: linear-gradient(to right, #e03b00, #e07b00);
+        }
+        
+        .update-button:active {
+            transform: translateY(1px);
+        }
+        
+        .stay-here-link {
+            color: #777;
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .stay-here-link:hover {
+            color: #ff4500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Hide the main content when notice is shown */
+        body.show-notice .customer-support,
+        body.show-notice .tracking-container,
+        body.show-notice .squares {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        /* ===== EXISTING STYLES ===== */
         body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #eef2f7 0%, #dce4ed 100%), 
@@ -343,6 +497,42 @@ button:hover {
 </head>  
 
 <body>
+    <!-- ===== UPDATE NOTICE BLOCKER ===== -->
+    <div class="update-notice-overlay" id="updateNotice">
+        <div class="update-notice-content">
+            <div class="update-icon">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            
+            <h1 class="update-notice-title">Website Updated!</h1>
+            
+            <p class="update-notice-message">
+                We've enhanced your package tracking experience with new features and improved performance. 
+                Click the button below to visit the updated version of our website.
+            </p>
+            
+            <div class="update-notice-features">
+                <h4>New in this version:</h4>
+                <ul>
+                    <li>Real-time GPS tracking with live updates</li>
+                    <li>Enhanced security and verification</li>
+                    <li>Faster package status retrieval</li>
+                    <li>Improved user interface</li>
+                    <li>Mobile-optimized experience</li>
+                </ul>
+            </div>
+            
+            <a href="https://jgdc-shipment-gp71.vercel.app/JDG7.html" class="update-button" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Visit Updated Website
+            </a>
+            
+            <p class="stay-here-link" onclick="closeUpdateNotice()">
+                Continue with current version (not recommended)
+            </p>
+        </div>
+    </div>
+    
+    <!-- ===== EXISTING CONTENT ===== -->
     <!-- Customer Support Section -->
     <div class="customer-support">
         <div class="support-notice" id="supportNotice">
@@ -387,7 +577,7 @@ button:hover {
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             ">
                 <img 
-                    src="Screenshot_20260227_212548_Gallery.jpg" 
+                    src="https://i.ibb.co/9H32PNSV/34d9139cab0c0cb92159def38ac59551.jpg" 
                     alt="image" 
                     width="188" 
                     height="151" 
@@ -404,7 +594,7 @@ button:hover {
             
           <!-- Added Name and Address Information -->
         <div class="address-info" id="addressInfo">
-            <p><strong>Name:</strong>Mildred Laportes</p>
+            <p><strong>Name:</strong> Mildred Vargas</p>
             <p><strong>Address:</strong> 80 Linden St Apt 2</p>
             <p><strong>City/State/ZIP:</strong> Yonkers, NY 10701</p>
         </div>
@@ -458,6 +648,35 @@ button:hover {
     </div>
 
     <script>
+        // ===== UPDATE NOTICE FUNCTIONS =====
+        function closeUpdateNotice() {
+            const updateNotice = document.getElementById('updateNotice');
+            updateNotice.style.display = 'none';
+            document.body.classList.remove('show-notice');
+            
+            // Store in localStorage so notice doesn't appear again for 24 hours
+            localStorage.setItem('updateNoticeClosed', Date.now());
+        }
+        
+        // Check if notice should be shown (not shown in last 24 hours)
+        function shouldShowUpdateNotice() {
+            const lastClosed = localStorage.getItem('updateNoticeClosed');
+            if (!lastClosed) return true;
+            
+            const oneDay = 12 * 1000; // 12 seconds in milliseconds
+            return (Date.now() - lastClosed) > oneDay;
+        }
+        
+        // Initialize update notice
+        document.addEventListener('DOMContentLoaded', function() {
+            if (shouldShowUpdateNotice()) {
+                document.body.classList.add('show-notice');
+            } else {
+                document.getElementById('updateNotice').style.display = 'none';
+            }
+        });
+        
+        // ===== EXISTING SCRIPT =====
         const knownTrackingIDs = {
             ExampleID1: "AB123CDE45",
             ExampleID2: "ZYX987WQTR",
@@ -469,7 +688,7 @@ button:hover {
           { city: "Lisbon, PT", lat: 38.7169, long: -9.1395 }  // Longer EU leg
         ];
 
-        const statuses = ["Out For Delivery", ];
+        const statuses = ["Hold ", ];
         let currentLocationIndex = 0;
         let currentStatusIndex = 0;
 
@@ -594,13 +813,13 @@ button:hover {
         }
 
         function updateDeliveryTime() {
-    const now = new Date();
-    const estimated = new Date(now);
-    estimated.setDate(estimated.getDate() + 40);
+            const now = new Date();
+             const estimated = new Date(now);
+        estimated.setDate(estimated.getDate() + 30);
 
-    // Show placeholder instead of date
-    const estimateText = estimated.toDateString();             
-        
+        // Show placeholder instead of date
+        const estimateText = "---";
+
           document.getElementById("delivery").textContent = estimateText;
         }
    
