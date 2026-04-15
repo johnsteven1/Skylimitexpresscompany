@@ -1,0 +1,624 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>IMTF | Integrated Mission & Task Force — Next-Gen Services</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #05070c;
+      color: #edf2ff;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* animated gradient orb background */
+    .bg-orb {
+      position: fixed;
+      top: -30%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle at 30% 40%, rgba(30, 40, 70, 0.6), rgba(5, 7, 12, 0.95));
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .bg-orb::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 80%, rgba(180, 50, 50, 0.15), transparent 70%);
+      animation: pulseGlow 12s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.3; transform: scale(1);}
+      100% { opacity: 0.8; transform: scale(1.08);}
+    }
+
+    /* custom cursor (cool effect) */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: #e03a3a;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.08s linear;
+      box-shadow: 0 0 12px #e03a3a;
+    }
+
+    .cursor-outline {
+      width: 32px;
+      height: 32px;
+      border: 2px solid rgba(224, 58, 58, 0.6);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.12s ease-out;
+      backdrop-filter: invert(0.2);
+    }
+
+    /* navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.3rem 5%;
+      background: rgba(5, 7, 12, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: -0.5px;
+    }
+    .logo i {
+      color: #e03a3a;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px #e03a3a);
+    }
+    .logo span {
+      background: linear-gradient(130deg, #ffffff, #9aa4bf);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #eef2ff;
+      font-weight: 500;
+      transition: 0.2s;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover {
+      color: #e03a3a;
+    }
+
+    .cta-nav {
+      background: rgba(224, 58, 58, 0.9);
+      padding: 0.5rem 1.3rem;
+      border-radius: 40px;
+      font-weight: 600;
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cta-nav:hover {
+      background: #b12a2a;
+      transform: scale(1.02);
+      box-shadow: 0 0 12px rgba(224,58,58,0.5);
+    }
+
+    /* hero section */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 2rem 5% 4rem;
+      position: relative;
+    }
+    .hero-content {
+      max-width: 680px;
+      background: rgba(8, 10, 18, 0.55);
+      backdrop-filter: blur(12px);
+      padding: 2.5rem 3rem;
+      border-radius: 48px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 25px 45px -12px black;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .hero h1 .accent {
+      color: #e03a3a;
+      text-shadow: 0 0 8px rgba(224,58,58,0.6);
+    }
+    .hero p {
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #cfd9f0;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: #e03a3a;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+    .btn-primary:hover {
+      background: #b82b2b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(224,58,58,0.4);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #e03a3a;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #eef2ff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-outline:hover {
+      background: rgba(224,58,58,0.2);
+      border-color: #ff6a6a;
+    }
+
+    /* services section */
+    .services {
+      padding: 6rem 5%;
+      background: rgba(2, 4, 10, 0.7);
+      backdrop-filter: blur(4px);
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      text-align: center;
+      color: #a9b4d4;
+      margin-bottom: 3.5rem;
+      font-size: 1.1rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background: rgba(20, 25, 40, 0.65);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      padding: 2rem 1.8rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      cursor: pointer;
+    }
+    .service-card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(224,58,58,0.5);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.6);
+      background: rgba(30, 35, 55, 0.8);
+    }
+    .service-icon {
+      font-size: 3.2rem;
+      color: #e03a3a;
+      margin-bottom: 1.2rem;
+    }
+    .service-card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 0.8rem;
+    }
+    .service-card p {
+      color: #bfc8ec;
+      line-height: 1.5;
+    }
+
+    /* stats / counter section */
+    .stats-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 2rem;
+      padding: 4rem 5%;
+      background: linear-gradient(120deg, #0a0e1a, #03050b);
+      border-top: 1px solid rgba(224,58,58,0.2);
+      border-bottom: 1px solid rgba(224,58,58,0.2);
+    }
+    .stat-item {
+      text-align: center;
+      min-width: 150px;
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #e03a3a;
+      letter-spacing: 2px;
+    }
+    .stat-label {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 500;
+    }
+
+    /* CTA section */
+    .cta-global {
+      padding: 5rem 5%;
+      text-align: center;
+      background: radial-gradient(ellipse at 30% 40%, rgba(30,20,40,0.6), transparent);
+    }
+    .cta-global h2 {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+    }
+    .cta-global .btn-primary {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      padding: 1rem 2.5rem;
+    }
+
+    /* footer */
+    footer {
+      padding: 2.5rem 5%;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+      font-size: 0.85rem;
+      color: #7f89ae;
+    }
+
+    /* toast notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1f1f2e;
+      backdrop-filter: blur(20px);
+      padding: 12px 24px;
+      border-radius: 60px;
+      color: white;
+      font-weight: 500;
+      border-left: 5px solid #e03a3a;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero h1 { font-size: 2.5rem; }
+      .nav-links { display: none; }
+      .navbar { justify-content: space-between; }
+      .navbar .cta-nav { display: block; }
+      .hero-content { padding: 1.8rem; }
+    }
+    @media (min-width: 801px) {
+      .mobile-menu-icon { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orb"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<nav class="navbar">
+  <div class="logo">
+    <i class="fas fa-shield-halbed"></i>
+    <span>IMTF</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#stats">Impact</a></li>
+    <li><a href="#contact" id="contactNavBtn">Contact</a></li>
+  </ul>
+  <button class="cta-nav" id="globalCtaBtn">Deploy Mission <i class="fas fa-arrow-right"></i></button>
+</nav>
+
+<main>
+  <!-- Hero section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Integrated <span class="accent">Mission &<br>Task Force</span> Solutions</h1>
+      <p>IMTF delivers elite strategic services, intelligence-driven operations, and next-gen crisis management. Your global partner for high-stakes readiness.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" id="heroExploreBtn">Explore Services <i class="fas fa-chevron-right"></i></button>
+        <button class="btn-outline" id="heroContactBtn">Request Consultation</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services">
+    <h2 class="section-title">Core <span style="color:#e03a3a;">Capabilities</span></h2>
+    <div class="section-sub">Advanced operational frameworks tailored to modern threats</div>
+    <div class="services-grid" id="servicesGrid">
+      <!-- dynamic injection via JS but static fallback, we fill with JS for interactivity -->
+    </div>
+  </section>
+
+  <!-- Stats Counter Section -->
+  <section id="stats" class="stats-section">
+    <div class="stat-item">
+      <div class="stat-number" data-target="124">0</div>
+      <div class="stat-label">Global Missions</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="48">0</div>
+      <div class="stat-label">Partner Nations</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="99.7" data-decimals="1">0.0</div>
+      <div class="stat-label">Success Rate (%)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="1520">0</div>
+      <div class="stat-label">Elite Personnel</div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <div class="cta-global" id="contact">
+    <h2>Ready to reinforce your <span style="color:#e03a3a;">strategic edge?</span></h2>
+    <p style="max-width: 600px; margin: 0 auto 1rem;">Join forces with IMTF and access real-time threat intelligence & rapid deployment.</p>
+    <button class="btn-primary" id="finalCtaBtn">Activate Partnership <i class="fas fa-handshake"></i></button>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 IMTF — Integrated Mission Task Force. Advanced readiness for a complex world.</p>
+  <p style="margin-top: 0.6rem;"><i class="fas fa-globe"></i> Global Command · Ethics & Precision</p>
+</footer>
+
+<script>
+  // --------------------------------------------------------------
+  // 1. CUSTOM CURSOR (cool interactive)
+  // --------------------------------------------------------------
+  const cursorDot = document.querySelector('.cursor-dot');
+  const cursorOutline = document.querySelector('.cursor-outline');
+
+  if (cursorDot && cursorOutline) {
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      cursorDot.style.transform = `translate(${posX - 4}px, ${posY - 4}px)`;
+      cursorOutline.style.transform = `translate(${posX - 16}px, ${posY - 16}px)`;
+    });
+    // add hover effect on buttons
+    const interactiveElements = document.querySelectorAll('button, .service-card, .nav-links a, .cta-nav');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorOutline.style.transform = `scale(1.6)`;
+        cursorOutline.style.borderColor = '#ff8a5c';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorOutline.style.transform = `scale(1)`;
+        cursorOutline.style.borderColor = 'rgba(224, 58, 58, 0.6)';
+      });
+    });
+  }
+
+  // --------------------------------------------------------------
+  // 2. SERVICES DATA (dynamic card generation)
+  // --------------------------------------------------------------
+  const servicesData = [
+    { icon: "fas fa-satellite-dish", title: "Strategic Intelligence", desc: "Real-time threat analysis, satellite recon & predictive modeling for proactive operations." },
+    { icon: "fas fa-user-secret", title: "Covert Task Forces", desc: "Elite special teams for high-risk extractions, counter-terrorism and cyber-physical defense." },
+    { icon: "fas fa-robot", title: "Autonomous Systems", desc: "Drone swarms, AI surveillance, and autonomous logistics for modern battlefields." },
+    { icon: "fas fa-shield-virus", title: "Cyber Resilience", desc: "Hardened infrastructure, offensive/defensive cyber units, and zero-trust architecture." },
+    { icon: "fas fa-handcuffs", title: "Crisis Negotiation", desc: "Hostage recovery, diplomatic intervention, and rapid de-escalation protocols." },
+    { icon: "fas fa-globe-americas", title: "Global Logistics", desc: "24/7 deployment hubs, forward operating bases, and seamless inter-agency coordination." }
+  ];
+
+  const servicesGrid = document.getElementById('servicesGrid');
+  if (servicesGrid) {
+    servicesData.forEach(service => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.innerHTML = `
+        <div class="service-icon"><i class="${service.icon}"></i></div>
+        <h3>${service.title}</h3>
+        <p>${service.desc}</p>
+      `;
+      card.addEventListener('click', () => {
+        showToast(`📡 IMTF: ${service.title} — Request a detailed briefing? Contact our command center.`);
+      });
+      servicesGrid.appendChild(card);
+    });
+  }
+
+  // --------------------------------------------------------------
+  // 3. STATS COUNTER (with decimals for success rate)
+  // --------------------------------------------------------------
+  const statNumbers = document.querySelectorAll('.stat-number');
+  let animated = false;
+
+  function animateNumbers() {
+    if (animated) return;
+    animated = true;
+    statNumbers.forEach(el => {
+      const target = parseFloat(el.getAttribute('data-target'));
+      const hasDecimals = el.getAttribute('data-decimals') === '1';
+      const duration = 1800;
+      const stepTime = 16;
+      let current = 0;
+      const increments = target / (duration / stepTime);
+      const updateCounter = () => {
+        current += increments;
+        if (current < target) {
+          if (hasDecimals) {
+            el.innerText = current.toFixed(1);
+          } else {
+            el.innerText = Math.floor(current);
+          }
+          requestAnimationFrame(updateCounter);
+        } else {
+          if (hasDecimals) el.innerText = target.toFixed(1);
+          else el.innerText = target;
+        }
+      };
+      if (hasDecimals) el.innerText = "0.0";
+      else el.innerText = "0";
+      requestAnimationFrame(updateCounter);
+    });
+  }
+
+  // Intersection Observer for stats
+  const statsSection = document.querySelector('.stats-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animateNumbers();
+        observer.unobserve(statsSection);
+      }
+    });
+  }, { threshold: 0.4 });
+  if (statsSection) observer.observe(statsSection);
+
+  // --------------------------------------------------------------
+  // 4. TOAST NOTIFICATION SYSTEM
+  // --------------------------------------------------------------
+  function showToast(message, duration = 3500) {
+    const existingToast = document.querySelector('.toast');
+    if(existingToast) existingToast.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas fa-bolt" style="margin-right: 10px; color:#e03a3a;"></i> ${message}`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
+
+  // --------------------------------------------------------------
+  // 5. SMOOTH SCROLL & INTERACTIONS
+  // --------------------------------------------------------------
+  const navLinks = document.querySelectorAll('.nav-links a, #heroExploreBtn, #heroContactBtn, #globalCtaBtn, #finalCtaBtn');
+  
+  function scrollToSection(sectionId) {
+    const section = document.querySelector(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // home links + buttons behavior
+  document.querySelectorAll('.nav-links a[href="#home"]').forEach(link => {
+    link.addEventListener('click', (e) => { e.preventDefault(); scrollToSection('#home'); });
+  });
+  document.querySelectorAll('.nav-links a[href="#services"]').forEach(link => {
+    link.addEventListener('click', (e) => { e.preventDefault(); scrollToSection('#services'); });
+  });
+  document.querySelectorAll('.nav-links a[href="#stats"]').forEach(link => {
+    link.addEventListener('click', (e) => { e.preventDefault(); scrollToSection('#stats'); });
+  });
+  const contactNav = document.getElementById('contactNavBtn');
+  if(contactNav) {
+    contactNav.addEventListener('click', (e) => { e.preventDefault(); scrollToSection('#contact'); });
+  }
+  const heroExplore = document.getElementById('heroExploreBtn');
+  if(heroExplore) heroExplore.addEventListener('click', () => scrollToSection('#services'));
+  const heroContact = document.getElementById('heroContactBtn');
+  if(heroContact) heroContact.addEventListener('click', () => { scrollToSection('#contact'); showToast('📞 IMTF liaison will reach out within 24 hours.'); });
+  
+  // global CTA buttons: deployment & partnership
+  const globalBtn = document.getElementById('globalCtaBtn');
+  if(globalBtn) {
+    globalBtn.addEventListener('click', () => {
+      showToast('⚡ Mission deployment request registered. Command will authenticate shortly.');
+    });
+  }
+  const finalCta = document.getElementById('finalCtaBtn');
+  if(finalCta) {
+    finalCta.addEventListener('click', () => {
+      showToast('🤝 Partnership request accepted. IMTF strategic advisor will connect.');
+    });
+  }
+
+  // extra cool: hover parallax on service cards? we add dynamic listener on stat items or some particles? already nice.
+  // add a subtle console greet
+  console.log("IMTF interface — global security interface ready");
+
+  // Dynamic background ripple effect based on mouse move (optional tiny)
+  document.body.addEventListener('mousemove', (e) => {
+    const orb = document.querySelector('.bg-orb');
+    if(orb) {
+      const x = (e.clientX / window.innerWidth) * 20;
+      const y = (e.clientY / window.innerHeight) * 20;
+      orb.style.transform = `translate(${x * 0.3}px, ${y * 0.2}px)`;
+    }
+  });
+
+  // Ensure counters not double fired when stats appear again (safe)
+  window.addEventListener('load', () => {
+    // preload the numbers if already visible (eg small screen)
+    if(statsSection && window.scrollY + window.innerHeight > statsSection.offsetTop) {
+      animateNumbers();
+    }
+    // Service card entrance animation
+    const cards = document.querySelectorAll('.service-card');
+    cards.forEach((card, idx) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, idx * 100);
+    });
+  });
+</script>
+</body>
+</html>
